@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="calendarGrid" prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.Calendrier">
+
+   <!-- En-têtes des jours -->
+   <Label layoutX="28" layoutY="14" text="Lundi"/>
+   <Label layoutX="88" layoutY="14" text="Mardi"/>
+   <Label layoutX="148" layoutY="14" text="Mercredi"/>
+   <Label layoutX="208" layoutY="14" text="Jeudi"/>
+   <Label layoutX="268" layoutY="14" text="Vendredi"/>
+   <Label layoutX="328" layoutY="14" text="Samedi"/>
+   <Label layoutX="388" layoutY="14" text="Dimanche"/>
+
+</AnchorPane>

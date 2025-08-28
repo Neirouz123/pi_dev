@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+        <VBox  xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.Accueil"
+            prefHeight="400.0" prefWidth="600.0">
+
+
+        <!-- Titre de la page d'accueil -->
+        <Text fx:id="titleText" text="Bienvenue sur Eventa Plan" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <!-- Message de bienvenue -->
+        <Text fx:id="welcomeMessage" text="Planifiez facilement vos événements ! Profitez de la gestion simple et efficace des événements." style="-fx-font-size: 16px;"/>
+
+    </VBox>
+
+

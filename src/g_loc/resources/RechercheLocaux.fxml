@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RechercheLocalController">
+
+
+    <!-- Champ de recherche -->
+    <TextField fx:id="rechercheTextField" layoutX="20.0" layoutY="67.2" onAction="#rechercherLocaux" onInputMethodTextChanged="#rechercherLocaux" prefHeight="26.0" prefWidth="234.0" promptText="Rechercher..." AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="346.0" AnchorPane.topAnchor="67.0" />
+
+    <!-- Boutons de filtre -->
+    <HBox spacing="10" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="120" />
+
+    <!-- Affichage des locaux -->
+    <FlowPane fx:id="flowPaneLocaux" hgap="20" vgap="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="170" >
+        <!-- Local items will be dynamically added here -->
+    </FlowPane>
+
+
+     <Button fx:id="filtrerCapaciteButton" layoutX="280.0" layoutY="67.0" onAction="#filtrerParCapacite" style="-fx-background-color: black;                 -fx-text-fill: white;" text="Filtrer Par Capacité" />
+     <Button fx:id="filtrerDisponibiliteButton" layoutX="415.0" layoutY="67.0" onAction="#filtrerParDisponibilite" style="-fx-background-color: black;                  -fx-text-fill: white;" text="Filtrer Par Disponibilité" />
+
+</AnchorPane>

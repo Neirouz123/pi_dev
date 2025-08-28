@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.ListeLocauxController"
+      style="-fx-background-color: #f8f9fa;">
+
+    <!-- Sticky Navigation Bar -->
+    <HBox spacing="10" style="-fx-padding: 15 20; -fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 0, 4, 0, 0);">
+        <!-- Logo -->
+        <Label text="EventaPlan" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2196F3;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <!-- Navigation Buttons -->
+        <Button text="Search Venue" style="-fx-background-color: transparent; -fx-text-fill: #666;">
+            <graphic>
+                <Text text="🔍" style="-fx-font-size: 14;"/>
+            </graphic>
+        </Button>
+        <Button text="Venue List" style="-fx-background-color: transparent; -fx-text-fill: #666;">
+            <graphic>
+                <Text text="📋" style="-fx-font-size: 14;"/>
+            </graphic>
+        </Button>
+        <Button text="⚙️" style="-fx-background-color: transparent; -fx-font-size: 16;"/>
+    </HBox>
+
+    <!-- Search and Filter Section -->
+    <VBox spacing="15" style="-fx-padding: 20;">
+        <!-- Search Bar -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <TextField fx:id="searchField" promptText="Search for venues..." HBox.hgrow="ALWAYS"
+                      style="-fx-padding: 10; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #e0e0e0; -fx-background-color: white;"/>
+            <Button text="🔍" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20;"/>
+        </HBox>
+        
+        <!-- Filter Buttons -->
+        <HBox spacing="10">
+            <Button fx:id="filterCapaciteBtn" text="Filter by Capacity" onAction="#handleFilterCapacite"
+                    style="-fx-background-color: white; -fx-border-color: #2196F3; -fx-text-fill: #2196F3; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 8 15;">
+                <graphic>
+                    <Text text="👥" style="-fx-font-size: 14;"/>
+                </graphic>
+            </Button>
+            <Button fx:id="filterDisponibiliteBtn" text="Filter by Availability" onAction="#handleFilterDisponibilite"
+                    style="-fx-background-color: white; -fx-border-color: #2196F3; -fx-text-fill: #2196F3; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 8 15;">
+                <graphic>
+                    <Text text="📅" style="-fx-font-size: 14;"/>
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+
+    <!-- Venues Grid -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-padding: 0 20;">
+        <GridPane fx:id="locauxContainer" hgap="20" vgap="20">
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33.33"/>
+                <ColumnConstraints percentWidth="33.33"/>
+                <ColumnConstraints percentWidth="33.33"/>
+            </columnConstraints>
+        </GridPane>
+    </ScrollPane>
+
+ 
+</VBox> 

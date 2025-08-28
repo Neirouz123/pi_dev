@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.ListeDesLocaux"
+      style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #ffffff);"
+      spacing="0"
+      prefWidth="1200.0" prefHeight="800.0"
+      VBox.vgrow="ALWAYS">
+
+    <!-- Hero Section with Banner -->
+    <StackPane VBox.vgrow="NEVER" minHeight="200" maxHeight="200">
+        <!-- Banner Background -->
+        <VBox style="-fx-background-color: linear-gradient(to right, #1976D2, #64B5F6); 
+                     -fx-padding: 0;">
+            <!-- Optional: Add pattern overlay for texture -->
+            <StackPane minHeight="200" maxHeight="200">
+                <VBox alignment="CENTER_LEFT" style="-fx-padding: 0 60;">
+                    <Text text="Discover Amazing Venues" 
+                          style="-fx-font-size: 36; -fx-font-weight: bold; -fx-fill: white;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 1);" />
+                    <Text text="Find and book the perfect space for your next event" 
+                          style="-fx-font-size: 18; -fx-fill: white;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0, 0, 1);" />
+                </VBox>
+            </StackPane>
+        </VBox>
+    </StackPane>
+
+    <!-- Search and Filter Section - Elevated Card Design -->
+    <VBox style="-fx-padding: 0 60; -fx-translate-y: -30;" VBox.vgrow="NEVER">
+        <VBox style="-fx-background-color: white; 
+                     -fx-background-radius: 8; 
+                     -fx-padding: 24 30; 
+                     -fx-spacing: 20;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 4);">
+            
+            <!-- Search Bar with magnifying glass icon -->
+            <HBox spacing="15" alignment="CENTER">
+                <Text text="🔍" style="-fx-font-size: 18;"/>
+                <TextField fx:id="rechercheTextField" promptText="Search by venue name, location, or features..." 
+                          onAction="#rechercherLocaux" 
+                          HBox.hgrow="ALWAYS"
+                          style="-fx-padding: 12; 
+                                 -fx-font-size: 14;
+                                 -fx-background-radius: 30; 
+                                 -fx-border-radius: 30; 
+                                 -fx-border-color: #e0e0e0; 
+                                 -fx-background-color: #f8f9fa;"/>
+            </HBox>
+            
+            <!-- Filter Options with Modern Styling -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Filter by:" style="-fx-font-size: 14; -fx-text-fill: #455a64; -fx-font-weight: bold;"/>
+                
+                <Button fx:id="filtrerCapaciteButton" text="Capacity" 
+                        onAction="#filtrerParCapacite"
+                        style="-fx-background-color: white; 
+                               -fx-border-color: #1976D2; 
+                               -fx-text-fill: #1976D2; 
+                               -fx-background-radius: 30; 
+                               -fx-border-radius: 30; 
+                               -fx-padding: 10 20;
+                               -fx-font-size: 13;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;">
+                    <graphic>
+                        <Text text="👥" style="-fx-font-size: 14;"/>
+                    </graphic>
+                    <effect>
+                        <DropShadow color="#00000022" radius="4" spread="0.1" />
+                    </effect>
+                </Button>
+                
+                <Button fx:id="filtrerDisponibiliteButton" text="Availability" 
+                        onAction="#filtrerParDisponibilite"
+                        style="-fx-background-color: white; 
+                               -fx-border-color: #1976D2; 
+                               -fx-text-fill: #1976D2; 
+                               -fx-background-radius: 30; 
+                               -fx-border-radius: 30; 
+                               -fx-padding: 10 20;
+                               -fx-font-size: 13;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;">
+                    <graphic>
+                        <Text text="📅" style="-fx-font-size: 14;"/>
+                    </graphic>
+                    <effect>
+                        <DropShadow color="#00000022" radius="4" spread="0.1" />
+                    </effect>
+                </Button>
+            </HBox>
+        </VBox>
+    </VBox>
+
+    <!-- Section Title -->
+    <HBox style="-fx-padding: 30 60 20 60;" VBox.vgrow="NEVER">
+        <Text text="Available Venues" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-fill: #37474F;"/>
+    </HBox>
+
+    <!-- Venues Grid with Improved Layout -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" 
+                style="-fx-background-color: transparent; 
+                       -fx-background: transparent;
+                       -fx-border-width: 0;
+                       -fx-padding: 0 40 40 40;">
+        <FlowPane fx:id="flowPaneLocaux" 
+                  hgap="30" vgap="30" 
+                  style="-fx-padding: 10 20 20 20;"
+                  prefWrapLength="1100">
+            <!-- Venue cards will be added here dynamically -->
+        </FlowPane>
+        <padding>
+            <Insets right="20" />
+        </padding>
+    </ScrollPane>
+
+    <!-- Footer with Credits -->
+    <HBox style="-fx-padding: 20; -fx-background-color: #37474F; -fx-alignment: center;" 
+          VBox.vgrow="NEVER" minHeight="50" maxHeight="50">
+        <Text text="EventaPlan - Find the perfect venue for your special occasions" 
+              style="-fx-font-size: 14; -fx-fill: white; -fx-text-alignment: center;"/>
+    </HBox>
+
+</VBox>

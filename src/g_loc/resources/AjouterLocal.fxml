@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.AjouterLocalController"
+      spacing="15" style="-fx-padding: 20;">
+    
+    <Label text="Ajouter un nouveau local" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+    
+    <GridPane vgap="10" hgap="10">
+        <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        
+        <Label text="Adresse:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="adresseField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        
+        <Label text="Capacité:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="capaciteField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        
+        <Label text="Prix:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="prixField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        
+        <Label text="Description:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextArea fx:id="descriptionArea" wrapText="true" prefRowCount="3"
+                  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+    
+    <VBox spacing="10">
+        <Label text="Images"/>
+        <ImageView fx:id="imagePreview" fitWidth="200" fitHeight="150" preserveRatio="true"/>
+        <Button text="Sélectionner une image" onAction="#handleSelectImage"/>
+    </VBox>
+    
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="ajouterButton" text="Ajouter" onAction="#handleAjouter"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    </HBox>
+    
+</VBox>

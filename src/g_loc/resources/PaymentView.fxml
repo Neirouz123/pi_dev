@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane style="-fx-background-color: white;" 
+            xmlns="http://javafx.com/javafx/17.0.6" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="controller.PaymentController"
+            prefWidth="1200.0" prefHeight="800.0">
+    <top>
+        <VBox spacing="10" style="-fx-padding: 20 60 15 60; -fx-background-color: white;" minHeight="100">
+            <Label text="PAIEMENT SÉCURISÉ" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2196F3;" />
+            <Label text="Veuillez compléter le formulaire de paiement ci-dessous pour finaliser votre réservation." style="-fx-font-size: 14; -fx-text-fill: #757575;" wrapText="true"/>
+        </VBox>
+    </top>
+    
+    <center>
+        <StackPane VBox.vgrow="ALWAYS">
+            <!-- Loading indicator -->
+            <VBox fx:id="loadingIndicator" alignment="CENTER" spacing="20" visible="true">
+                <Label text="Chargement du formulaire de paiement..." style="-fx-font-size: 16; -fx-text-fill: #757575;" />
+                <Label text="🔄" style="-fx-font-size: 40; -fx-text-fill: #2196F3;" />
+            </VBox>
+            
+            <!-- Stripe Checkout WebView -->
+            <WebView fx:id="webView" visible="false" VBox.vgrow="ALWAYS" />
+            
+            <!-- Error message -->
+            <VBox fx:id="errorPane" alignment="CENTER" spacing="20" visible="false">
+                <Label text="Une erreur est survenue lors du chargement du paiement" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #F44336;" wrapText="true"/>
+                <Label fx:id="errorMessage" style="-fx-font-size: 14; -fx-text-fill: #757575;" wrapText="true"/>
+                <Button text="RETOURNER AU PANIER" onAction="#retournerAuPanier" style="-fx-background-color: #212121; -fx-text-fill: white; -fx-padding: 12 24; -fx-font-weight: bold;">
+                    <effect>
+                        <DropShadow color="#00000033" height="4" radius="1.5" width="0" />
+                    </effect>
+                </Button>
+            </VBox>
+        </StackPane>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER" spacing="10" style="-fx-padding: 15 60; -fx-background-color: #f5f5f5;" minHeight="70">
+            <Button onAction="#retournerAuPanier" text="ANNULER" style="-fx-background-color: #e0e0e0; -fx-text-fill: #424242; -fx-padding: 12 24; -fx-font-weight: bold; -fx-cursor: hand;" />
+            <HBox HBox.hgrow="ALWAYS" />
+            <Label text="Paiement sécurisé par" style="-fx-font-size: 14; -fx-text-fill: #757575;" />
+            <Label text="Stripe" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #635BFF;" />
+        </HBox>
+    </bottom>
+</BorderPane> 

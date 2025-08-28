@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AfficherLocalController">
+
+    <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: #f5f5f5; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <!-- Image of the Local -->
+        <FlowPane fx:id="imagesFlowPane" hgap="10" prefHeight="42.0" prefWidth="490.0" vgap="10" />
+
+        <!-- Name of the Local -->
+        <Label fx:id="localNameLabel" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
+
+        <!-- Address of the Local -->
+        <Label fx:id="localAdresseLabel" style="-fx-font-size: 16px;" />
+
+        <!-- Description of the Local -->
+        <Label fx:id="localDescriptionLabel" style="-fx-font-size: 16px;" wrapText="true" />
+
+        <!-- Capacity of the Local -->
+        <Label fx:id="localCapacityLabel" style="-fx-font-size: 16px;" />
+
+        <!-- Availability of the Local -->
+        <Label fx:id="localAvailabilityLabel" style="-fx-font-size: 16px;" />
+
+        <!-- Price of the Local -->
+        <Label fx:id="localPrixLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+        <!-- Modifier Button -->
+        <Button fx:id="modifierButton" onAction="#modifier_Local" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Modifier" />
+    </VBox>
+</AnchorPane>
