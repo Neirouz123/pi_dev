@@ -2,23 +2,18 @@ package controller;
 
 import entities.local;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.geometry.Insets;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.util.Callback;
 import services.ServiceLocal;
 
 import java.io.File;
@@ -408,7 +403,7 @@ public class VenueBackofficeController {
             e.printStackTrace();
         }
     }
-    
+
     private void showError(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -420,87 +415,245 @@ public class VenueBackofficeController {
     // Create the edit dialog programmatically
     private void createEditDialog() {
         editDialog = new Dialog<>();
-        editDialog.setTitle("Venue Details");
-        
-        // Create the dialog pane
+        editDialog.setTitle("🏢 Venue Management");
+
+        // Create the dialog pane with enhanced styling
         DialogPane dialogPane = new DialogPane();
-        dialogPane.setPrefWidth(500);
-        dialogPane.setPrefHeight(400);
-        
+        dialogPane.setPrefWidth(650);
+        dialogPane.setPrefHeight(600);
+        dialogPane.setStyle("-fx-background-color: linear-gradient(to bottom, #f8fafc, #e2e8f0); -fx-background-radius: 12;");
+
         // Set button types
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        
-        // Create form grid
+
+        // Style the buttons
+        Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+        Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
+
+        okButton.setText("💾 Save Venue");
+        okButton.setStyle("-fx-background-color: linear-gradient(to bottom, #48bb78, #38a169); " +
+                "-fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 20; " +
+                "-fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 14; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);");
+
+        cancelButton.setText("❌ Cancel");
+        cancelButton.setStyle("-fx-background-color: linear-gradient(to bottom, #e53e3e, #c53030); " +
+                "-fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 20; " +
+                "-fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 14; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);");
+
+        // Create main container
+        VBox mainContainer = new VBox(25);
+        mainContainer.setPadding(new Insets(30));
+        mainContainer.setStyle("-fx-background-color: white; -fx-background-radius: 12; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+
+        // Create header
+        VBox header = new VBox(8);
+        header.setAlignment(javafx.geometry.Pos.CENTER);
+
+        Label titleLabel = new Label("✨ Venue Information");
+        titleLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1a202c; " +
+                "-fx-font-family: 'Segoe UI', Arial, sans-serif;");
+
+        Separator headerSeparator = new Separator();
+        headerSeparator.setMaxWidth(300);
+        headerSeparator.setStyle("-fx-background-color: #4299e1;");
+
+        Label subtitleLabel = new Label("Fill in the details below to manage your venue");
+        subtitleLabel.setStyle("-fx-font-size: 12; -fx-text-fill: #64748b; -fx-font-style: italic;");
+
+        header.getChildren().addAll(titleLabel, headerSeparator, subtitleLabel);
+
+        // Create form grid with enhanced styling
         GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 20, 20, 20));
-        
-        // Create form fields
+        grid.setHgap(20);
+        grid.setVgap(18);
+        grid.setPadding(new Insets(20, 0, 0, 0));
+
+        // Set column constraints for better layout
+        javafx.scene.layout.ColumnConstraints col1 = new javafx.scene.layout.ColumnConstraints();
+        col1.setMinWidth(120);
+        col1.setPrefWidth(150);
+        javafx.scene.layout.ColumnConstraints col2 = new javafx.scene.layout.ColumnConstraints();
+        col2.setHgrow(Priority.ALWAYS);
+        grid.getColumnConstraints().addAll(col1, col2);
+
+        // Create form fields with enhanced styling
         nameField = new TextField();
+        nameField.setPromptText("Enter venue name");
+        nameField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; " +
+                "-fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;");
+
         addressField = new TextField();
+        addressField.setPromptText("Enter complete address");
+        addressField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; " +
+                "-fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;");
+
         descriptionField = new TextArea();
-        descriptionField.setPrefHeight(100);
+        descriptionField.setPromptText("Detailed description of the venue...");
+        descriptionField.setPrefHeight(120);
+        descriptionField.setWrapText(true);
+        descriptionField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; " +
+                "-fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14;");
+
         capacityField = new TextField();
+        capacityField.setPromptText("Number of people");
+        capacityField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; " +
+                "-fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;");
+
         priceField = new TextField();
+        priceField.setPromptText("Price per day (DT)");
+        priceField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; " +
+                "-fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;");
+
         availableCheckbox = new CheckBox();
+        availableCheckbox.setText("Currently available for booking");
+        availableCheckbox.setStyle("-fx-font-size: 14; -fx-text-fill: #2d3748;");
+
         imagePathField = new TextField();
+        imagePathField.setPromptText("No image selected");
         imagePathField.setEditable(false);
-        
-        // Create browse button
-        Button browseButton = new Button("Browse");
+        imagePathField.setStyle("-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; " +
+                "-fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;");
+
+        // Create browse button with enhanced styling
+        Button browseButton = new Button("📁 Browse");
         browseButton.setOnAction(e -> handleBrowseImage());
-        
+        browseButton.setStyle("-fx-background-color: linear-gradient(to bottom, #4299e1, #3182ce); " +
+                "-fx-text-fill: white; -fx-padding: 12 16; -fx-font-weight: bold; " +
+                "-fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 14; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);");
+
+        // Create styled labels
+        Label nameLabel = new Label("🏢 Name:");
+        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;");
+
+        Label addressLabel = new Label("📍 Address:");
+        addressLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;");
+
+        Label descriptionLabel = new Label("📝 Description:");
+        descriptionLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;");
+        descriptionLabel.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+
+        Label capacityLabel = new Label("👥 Capacity:");
+        capacityLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;");
+
+        Label priceLabel = new Label("💰 Price:");
+        priceLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;");
+
+        Label availableLabel = new Label("✅ Availability:");
+        availableLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;");
+
+        Label imageLabel = new Label("📸 Image:");
+        imageLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;");
+
         // Add components to grid
-        grid.add(new Label("Name:"), 0, 0);
+        grid.add(nameLabel, 0, 0);
         grid.add(nameField, 1, 0);
-        grid.add(new Label("Address:"), 0, 1);
+
+        grid.add(addressLabel, 0, 1);
         grid.add(addressField, 1, 1);
-        grid.add(new Label("Description:"), 0, 2);
+
+        grid.add(descriptionLabel, 0, 2);
         grid.add(descriptionField, 1, 2);
-        grid.add(new Label("Capacity:"), 0, 3);
+        GridPane.setValignment(descriptionLabel, javafx.geometry.VPos.TOP);
+        GridPane.setMargin(descriptionLabel, new Insets(8, 0, 0, 0));
+
+        grid.add(capacityLabel, 0, 3);
         grid.add(capacityField, 1, 3);
-        grid.add(new Label("Price:"), 0, 4);
+
+        grid.add(priceLabel, 0, 4);
         grid.add(priceField, 1, 4);
-        grid.add(new Label("Available:"), 0, 5);
+
+        grid.add(availableLabel, 0, 5);
         grid.add(availableCheckbox, 1, 5);
-        grid.add(new Label("Image:"), 0, 6);
-        
-        // Create HBox for image path and browse button
-        HBox imageBox = new HBox(10);
+
+        grid.add(imageLabel, 0, 6);
+
+        // Create HBox for image path and browse button with enhanced styling
+        HBox imageBox = new HBox(12);
+        imageBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         imageBox.getChildren().addAll(imagePathField, browseButton);
         HBox.setHgrow(imagePathField, Priority.ALWAYS);
         grid.add(imageBox, 1, 6);
-        
-        // Add grid to dialog
-        dialogPane.setContent(grid);
+
+        // Add separator before buttons
+        Separator bottomSeparator = new Separator();
+        bottomSeparator.setStyle("-fx-background-color: #e2e8f0;");
+        bottomSeparator.setMaxWidth(Double.MAX_VALUE);
+
+        // Add all components to main container
+        mainContainer.getChildren().addAll(header, grid);
+
+        // Add main container to dialog
+        dialogPane.setContent(mainContainer);
         editDialog.setDialogPane(dialogPane);
     }
-    
-    // Create the delete confirmation dialog programmatically
+
+    // Create the delete confirmation dialog programmatically with enhanced styling
     private void createDeleteDialog() {
         deleteDialog = new Dialog<>();
-        deleteDialog.setTitle("Confirm Deletion");
-        
-        // Create the dialog pane
+        deleteDialog.setTitle("⚠️ Confirm Deletion");
+
+        // Create the dialog pane with enhanced styling
         DialogPane dialogPane = new DialogPane();
-        
+        dialogPane.setPrefWidth(500);
+        dialogPane.setPrefHeight(300);
+        dialogPane.setStyle("-fx-background-color: linear-gradient(to bottom, #fed7d7, #feb2b2); -fx-background-radius: 12;");
+
         // Add button types (CANCEL and custom DELETE button with OK_DONE button data)
-        ButtonType deleteButtonType = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+        ButtonType deleteButtonType = new ButtonType("🗑️ Delete", ButtonBar.ButtonData.OK_DONE);
         dialogPane.getButtonTypes().addAll(ButtonType.CANCEL, deleteButtonType);
-        
-        // Create content
-        VBox content = new VBox(10);
-        content.setPadding(new Insets(20, 20, 20, 20));
-        
+
+        // Style the buttons
+        Button deleteButton = (Button) dialogPane.lookupButton(deleteButtonType);
+        Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
+
+        deleteButton.setStyle("-fx-background-color: linear-gradient(to bottom, #e53e3e, #c53030); " +
+                "-fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 20; " +
+                "-fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 14; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0, 0, 3);");
+
+        cancelButton.setText("↩️ Cancel");
+        cancelButton.setStyle("-fx-background-color: linear-gradient(to bottom, #718096, #4a5568); " +
+                "-fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 20; " +
+                "-fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 14; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);");
+
+        // Create content container
+        VBox content = new VBox(20);
+        content.setPadding(new Insets(30));
+        content.setAlignment(javafx.geometry.Pos.CENTER);
+        content.setStyle("-fx-background-color: white; -fx-background-radius: 12; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+
+        // Create warning icon (using text as icon)
+        Label iconLabel = new Label("⚠️");
+        iconLabel.setStyle("-fx-font-size: 48; -fx-text-fill: #e53e3e;");
+
+        // Create warning message
         Label warningLabel = new Label("Are you sure you want to delete this venue?");
-        warningLabel.setStyle("-fx-font-weight: bold;");
-        
-        Label cautionLabel = new Label("This action cannot be undone.");
-        cautionLabel.setStyle("-fx-text-fill: #F44336;");
-        
-        content.getChildren().addAll(warningLabel, cautionLabel);
-        
+        warningLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 18; -fx-text-fill: #1a202c; " +
+                "-fx-text-alignment: center;");
+        warningLabel.setWrapText(true);
+        warningLabel.setMaxWidth(400);
+
+        // Create caution message
+        Label cautionLabel = new Label("This action cannot be undone. All associated data will be permanently removed.");
+        cautionLabel.setStyle("-fx-text-fill: #e53e3e; -fx-font-size: 14; -fx-text-alignment: center; " +
+                "-fx-font-style: italic;");
+        cautionLabel.setWrapText(true);
+        cautionLabel.setMaxWidth(400);
+
+        // Create separator
+        Separator separator = new Separator();
+        separator.setMaxWidth(300);
+        separator.setStyle("-fx-background-color: #e2e8f0;");
+
+        // Add all elements to content
+        content.getChildren().addAll(iconLabel, warningLabel, separator, cautionLabel);
+
         // Add content to dialog
         dialogPane.setContent(content);
         deleteDialog.setDialogPane(dialogPane);

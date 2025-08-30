@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+    <children>
+        <!-- Header Section -->
+        <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: linear-gradient(to bottom, #667eea, #764ba2); -fx-padding: 40;">
+            <children>
+                <Label text="🏢 EventaPlan" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label text="Venue Management and Booking System" textFill="#E8E8E8">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+
+        <!-- Login Form -->
+        <VBox alignment="CENTER" spacing="25.0" style="-fx-background-color: #f8f9fa; -fx-padding: 50;">
+            <children>
+                <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5); -fx-padding: 40;">
+                    <children>
+                        <Label text="Sign In" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2d3748;" />
+
+                        <Label text="Choose your account type and enter your credentials" style="-fx-font-size: 12; -fx-text-fill: #718096;" />
+
+                        <Separator maxWidth="300.0" style="-fx-background-color: #e2e8f0;" />
+
+                        <!-- Role Selection -->
+                        <VBox spacing="8.0">
+                            <children>
+                                <Label text="Account Type" style="-fx-font-weight: bold; -fx-text-fill: #4a5568;" />
+                                <ComboBox fx:id="roleComboBox" prefWidth="300.0" style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14;" />
+                            </children>
+                        </VBox>
+
+                        <!-- Username Field -->
+                        <VBox spacing="8.0">
+                            <children>
+                                <Label text="Username" style="-fx-font-weight: bold; -fx-text-fill: #4a5568;" />
+                                <TextField fx:id="usernameField" prefWidth="300.0" promptText="Enter your username" style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14;" />
+                            </children>
+                        </VBox>
+
+                        <!-- Password Field -->
+                        <VBox spacing="8.0">
+                            <children>
+                                <Label text="Password" style="-fx-font-weight: bold; -fx-text-fill: #4a5568;" />
+                                <PasswordField fx:id="passwordField" prefWidth="300.0" promptText="Enter your password" style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14;" />
+                            </children>
+                        </VBox>
+
+                        <!-- Message Label -->
+                        <Label fx:id="messageLabel" text="" wrapText="true" maxWidth="300.0" style="-fx-font-size: 12;" />
+
+                        <!-- Buttons -->
+                        <VBox spacing="12.0" alignment="CENTER">
+                            <children>
+                                <Button fx:id="loginButton" onAction="#handleLogin" prefWidth="300.0" text="🔑 Sign In" style="-fx-background-color: linear-gradient(to bottom, #4299e1, #3182ce); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15; -fx-background-radius: 8; -fx-font-size: 14; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 3);" />
+
+                                <Button fx:id="registerButton" onAction="#handleRegister" prefWidth="300.0" text="📝 Create Account" style="-fx-background-color: linear-gradient(to bottom, #48bb78, #38a169); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15; -fx-background-radius: 8; -fx-font-size: 14; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 3);" />
+                            </children>
+                        </VBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </VBox>
+            </children>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </VBox>
+
+        <!-- Footer -->
+        <VBox alignment="CENTER" style="-fx-background-color: #2d3748; -fx-padding: 20;">
+            <children>
+                <Label text="© 2025 EventaPlan. All rights reserved." textFill="#a0aec0" style="-fx-font-size: 12;" />
+            </children>
+        </VBox>
+    </children>
+</VBox>

@@ -14,6 +14,7 @@ public interface IReservation {
     void supprimerReservationParId(int reservationId);
 
     String getLocalNameByReservationId(int reservationId);
+    public void updateReservation(Reservation reservation) ;
 
     void ajouterReservation(Reservation reservation);
     List<Reservation> getReservationsForLocal(int localId);

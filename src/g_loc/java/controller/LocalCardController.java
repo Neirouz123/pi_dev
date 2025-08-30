@@ -1,6 +1,5 @@
 package controller;
 
-import entities.Reservation;
 import entities.local;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
@@ -9,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
@@ -20,17 +18,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import services.ServiceReservation;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class LocalCardController {
     @FXML
@@ -217,107 +209,29 @@ public class LocalCardController {
             e.printStackTrace();
         }
     }
-
     @FXML
     private void handleReserver() {
         try {
-            // Check if venue is available
-            ServiceReservation service = new ServiceReservation();
-            LocalDate reservationDate = LocalDate.now().plusDays(1); // Schedule for tomorrow by default
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Calendrier.fxml"));
+            Parent root = loader.load();
 
-            if (service.isDateReserved(localDetails.getId(), reservationDate)) {
-                // If tomorrow is reserved, try the next 7 days
-                boolean availableDateFound = false;
-                for (int i = 2; i <= 7; i++) {
-                    LocalDate nextDate = LocalDate.now().plusDays(i);
-                    if (!service.isDateReserved(localDetails.getId(), nextDate)) {
-                        reservationDate = nextDate;
-                        availableDateFound = true;
-                        break;
-                    }
-                }
+            // Pass the localId (so calendar knows which venue to display)
+            Calendrier calendarController = loader.getController();
+            calendarController.setLocalId(localDetails.getId());
+            calendarController.generateCalendar(); // refresh after setting ID
 
-                if (!availableDateFound) {
-                    // No available dates found in the next week
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("No Availability");
-                    alert.setHeaderText("No available dates found for the next week");
-                    alert.setContentText("Please check the calendar for available dates");
+            // Show calendar
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) reserverButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("EventaPlan - Calendrier");
+            stage.show();
 
-                    // Add option to view calendar
-                    ButtonType viewCalendarButton = new ButtonType("View Calendar");
-                    ButtonType cancelButton = new ButtonType("Cancel");
-                    alert.getButtonTypes().setAll(viewCalendarButton, cancelButton);
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == viewCalendarButton) {
-                        openCalendarView();
-                    }
-                    return;
-                }
-            }
-
-            // Show confirmation dialog with the date
-            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmAlert.setTitle("Confirm Booking");
-            confirmAlert.setHeaderText("Book " + localDetails.getNom() + " for " + reservationDate);
-            confirmAlert.setContentText("Price: " + currencyFormatter.format(localDetails.getPrix()) + "\n\nProceed to payment?");
-
-            Optional<ButtonType> result = confirmAlert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Create the reservation
-                Reservation reservation = new Reservation(
-                    0, // ID will be set by the database
-                    localDetails.getId(), // Venue ID
-                    1, // User ID (hardcoded for now)
-                    reservationDate,
-                    LocalTime.of(9, 0), // Start time
-                    LocalTime.of(17, 0), // End time (full day)
-                    false, // Not confirmed yet
-                    localDetails.getPrix() // Set the price from the venue
-                );
-
-                // Add the reservation
-                service.ajouterReservation(reservation);
-
-                // Get the inserted reservation with its ID
-                List<Reservation> userReservations = service.getReservationsForUser(1);
-                List<Reservation> reservationsToPay = new ArrayList<>();
-
-                // Find the reservation we just created
-                for (Reservation res : userReservations) {
-                    if (res.getLocalId() == localDetails.getId() && res.getDate().equals(reservationDate)) {
-                        reservationsToPay.add(res);
-                        break;
-                    }
-                }
-
-                if (!reservationsToPay.isEmpty()) {
-                    // Proceed to payment
-                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("PaymentView.fxml"));
-                    Parent root = loader.load();
-
-                    // Get the controller and set the reservations
-                    PaymentController paymentController = loader.getController();
-                    paymentController.setReservations(reservationsToPay);
-
-                    // Show payment view
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) reserverButton.getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.setTitle("EventaPlan - Secure Payment");
-                    stage.show();
-
-                    System.out.println("Opening payment for booking: " + localDetails.getNom() + " on " + reservationDate);
-                } else {
-                    throw new Exception("Reservation was not created properly");
-                }
-            }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Booking Error");
-            alert.setHeaderText("Could not process your booking");
-            alert.setContentText("Error: " + e.getMessage());
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Impossible d’ouvrir le calendrier");
+            alert.setContentText("Erreur: " + e.getMessage());
             alert.showAndWait();
             e.printStackTrace();
         }

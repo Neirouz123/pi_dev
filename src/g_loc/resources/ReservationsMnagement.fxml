@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReservationManagementController">
+    <children>
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0;">
+            <children>
+                <Label text="Reservation Management" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #2d3748;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Export Data" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand;" />
+                <Button onAction="#refreshData" text="Refresh" style="-fx-background-color: #4299e1; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand;" />
+            </children>
+        </HBox>
+
+        <!-- Filters and Search -->
+        <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: #f7fafc; -fx-padding: 15;">
+            <children>
+                <Label text="Search:" style="-fx-font-weight: bold; -fx-text-fill: #4a5568;" />
+                <TextField fx:id="searchField" prefWidth="200.0" promptText="Search reservations..." style="-fx-background-color: white; -fx-border-color: #d1d5db; -fx-border-radius: 6; -fx-padding: 8 12;" />
+
+                <Label text="Status:" style="-fx-font-weight: bold; -fx-text-fill: #4a5568;" />
+                <ComboBox fx:id="statusFilter" prefWidth="120.0" style="-fx-background-color: white; -fx-border-color: #d1d5db; -fx-border-radius: 6;" />
+
+                <Label text="Date Range:" style="-fx-font-weight: bold; -fx-text-fill: #4a5568;" />
+                <DatePicker fx:id="startDatePicker" promptText="From" style="-fx-background-color: white; -fx-border-color: #d1d5db; -fx-border-radius: 6;" />
+                <DatePicker fx:id="endDatePicker" promptText="To" style="-fx-background-color: white; -fx-border-color: #d1d5db; -fx-border-radius: 6;" />
+
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="statusLabel" text="Ready" style="-fx-text-fill: #6b7280;" />
+            </children>
+        </HBox>
+
+        <!-- Reservations Table -->
+        <TableView fx:id="reservationsTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="60.0" text="ID" />
+                <TableColumn fx:id="userColumn" prefWidth="120.0" text="User" />
+                <TableColumn fx:id="venueColumn" prefWidth="150.0" text="Venue" />
+                <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date" />
+                <TableColumn fx:id="timeColumn" prefWidth="120.0" text="Time" />
+                <TableColumn fx:id="statusColumn" prefWidth="100.0" text="Status" />
+                <TableColumn fx:id="priceColumn" prefWidth="100.0" text="Price" />
+                <TableColumn fx:id="actionsColumn" prefWidth="150.0" text="Actions" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </children>
+</VBox>

@@ -14,8 +14,8 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Dashboard"), 1280, 720);
-        stage.setTitle("EventaPlan - Venue Management");
+        scene = new Scene(loadFXML("Login"), 1280, 720);
+        stage.setTitle("EventaPlan - Ligin");
         stage.setScene(scene);
         stage.show();
     }

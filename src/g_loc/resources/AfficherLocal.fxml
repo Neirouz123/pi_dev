@@ -6,7 +6,9 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AfficherLocalController">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.AfficherLocalController">
 
     <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: #f5f5f5; -fx-border-radius: 10; -fx-background-radius: 10;">
         <!-- Image of the Local -->

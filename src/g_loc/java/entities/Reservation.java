@@ -24,7 +24,8 @@ public class Reservation {
         this.heureFin = heureFin;
         this.isConfirmee = isConfirmee;
     }
-    
+    // Add this constructor to Reservation.java
+
     // Constructor with price
     public Reservation(int id, int local_id, int utilisateur_id, LocalDate date, LocalTime heureDebut, LocalTime heureFin, boolean isConfirmee, double prix) {
         this.id = id;
@@ -52,7 +53,7 @@ public class Reservation {
     public void setId(int id) {
         this.id = id;
     }
-
+public void setConfirmee(boolean confirmee) {this.isConfirmee = confirmee;}
     public int getLocalId() {
         return this.local_id;
     }
@@ -62,7 +63,6 @@ public class Reservation {
     public void setPrix(double prix) {
         this.prix = prix;
     }
-
     public void setLocalId(int localId) {
         this.local_id = localId;
     }

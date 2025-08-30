@@ -31,7 +31,6 @@ public interface IService<T> {
     List<T> rechercherLocal(String keyword);
 
     local rechercherLocalParId(int id);
-
     // Vérifier si un local est disponible pour une date et une heure
     boolean estDisponible(int idLocal, String date, String heure);
 }

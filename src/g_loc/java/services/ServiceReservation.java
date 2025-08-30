@@ -73,18 +73,24 @@ public class ServiceReservation implements IReservation {
     }
 
 
-    // ✅ Ajouter une réservation
+    // ✅ Ajouter une réservation avec prix
     @Override
     public void ajouterReservation(Reservation reservation) {
         try {
-            String req = "INSERT INTO reservation (local_id, utilisateur_id, date, heureDebut, heureFin, isConfirmee) VALUES (?, ?, ?, ?, ?, ?)";
+            // First get the price from the local
+            ServiceLocal serviceLocal = new ServiceLocal();
+            double prix = serviceLocal.getPrixById(reservation.getLocalId());
+            reservation.setPrix(prix);
+
+            String req = "INSERT INTO reservation (local_id, utilisateur_id, date, heureDebut, heureFin, isConfirmee, prix) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = cnx.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, reservation.getLocalId());  // updated to localId
+            pstmt.setInt(1, reservation.getLocalId());
             pstmt.setInt(2, reservation.getUtilisateurId());
             pstmt.setDate(3, Date.valueOf(reservation.getDate()));
             pstmt.setTime(4, Time.valueOf(reservation.getHeureDebut()));
             pstmt.setTime(5, Time.valueOf(reservation.getHeureFin()));
-            pstmt.setBoolean(6, reservation.isConfirmee());  // updated to isConfirmed
+            pstmt.setBoolean(6, reservation.isConfirmee());
+            pstmt.setDouble(7, reservation.getPrix()); // Add price
 
             pstmt.executeUpdate();
 
@@ -96,6 +102,28 @@ public class ServiceReservation implements IReservation {
 
         } catch (SQLException ex) {
             System.out.println("❌ Erreur lors de l'ajout de la réservation : " + ex.getMessage());
+        }
+    }
+    @Override
+    public void updateReservation(Reservation reservation) {
+        try {
+            String sql = "UPDATE reservation SET date = ?, heureDebut = ?, heureFin = ? WHERE id = ?";
+            PreparedStatement pstmt = cnx.prepareStatement(sql);
+            pstmt.setDate(1, java.sql.Date.valueOf(reservation.getDate()));
+            pstmt.setTime(2, java.sql.Time.valueOf(reservation.getHeureDebut()));
+            pstmt.setTime(3, java.sql.Time.valueOf(reservation.getHeureFin()));
+            pstmt.setInt(4, reservation.getId());
+
+            int rows = pstmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("✅ Reservation updated successfully! ID=" + reservation.getId());
+            } else {
+                System.out.println("⚠️ No reservation updated. ID might not exist.");
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de la mise à jour de la réservation : " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

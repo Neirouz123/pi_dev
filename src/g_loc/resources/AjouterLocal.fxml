@@ -1,43 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="controller.AjouterLocalController"
-      spacing="15" style="-fx-padding: 20;">
-    
-    <Label text="Ajouter un nouveau local" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-    
-    <GridPane vgap="10" hgap="10">
-        <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-        
-        <Label text="Adresse:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="adresseField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-        
-        <Label text="Capacité:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="capaciteField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-        
-        <Label text="Prix:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="prixField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-        
-        <Label text="Description:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <TextArea fx:id="descriptionArea" wrapText="true" prefRowCount="3"
-                  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-    </GridPane>
-    
-    <VBox spacing="10">
-        <Label text="Images"/>
-        <ImageView fx:id="imagePreview" fitWidth="200" fitHeight="150" preserveRatio="true"/>
-        <Button text="Sélectionner une image" onAction="#handleSelectImage"/>
+      spacing="25" style="-fx-padding: 40; -fx-background: linear-gradient(to bottom, #f8fafc, #e2e8f0);"
+      prefWidth="2000" prefHeight="1800">
+
+    <!-- Header Section -->
+    <VBox spacing="8" alignment="CENTER">
+        <Label text="✨ Ajouter un nouveau local"
+               style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #1a202c; -fx-font-family: 'Segoe UI', Arial, sans-serif;"/>
+        <Separator maxWidth="400" style="-fx-background-color: #4299e1;"/>
+        <Label text="Remplissez les informations ci-dessous pour créer votre annonce"
+               style="-fx-font-size: 14; -fx-text-fill: #64748b; -fx-font-style: italic;"/>
     </VBox>
-    
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button fx:id="ajouterButton" text="Ajouter" onAction="#handleAjouter"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+
+    <!-- Form Container -->
+    <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2); -fx-padding: 35;">
+
+        <!-- Form Fields -->
+        <GridPane vgap="20" hgap="25" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" prefWidth="200"/>
+                <ColumnConstraints minWidth="400" prefWidth="500"/>
+            </columnConstraints>
+
+            <Label text="🏢 Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;"/>
+            <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                       promptText="Nom du local"
+                       style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;"/>
+
+            <Label text="📍 Adresse:" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                   style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;"/>
+            <TextField fx:id="adresseField" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       promptText="Adresse complète"
+                       style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;"/>
+
+            <Label text="👥 Capacité:" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                   style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;"/>
+            <TextField fx:id="capaciteField" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                       promptText="Nombre de personnes"
+                       style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;"/>
+
+            <Label text="💰 Prix:" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                   style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;"/>
+            <TextField fx:id="prixField" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                       promptText="Prix par jour (€)"
+                       style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14; -fx-pref-height: 45;"/>
+
+            <Label text="📝 Description:" GridPane.rowIndex="4" GridPane.columnIndex="0"
+                   style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2d3748;"
+                   GridPane.valignment="TOP">
+                <GridPane.margin>
+                    <Insets top="8"/>
+                </GridPane.margin>
+            </Label>
+            <TextArea fx:id="descriptionArea" wrapText="true" prefRowCount="5" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                      style="-fx-background-color: #f7fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12; -fx-font-size: 14;"
+                      promptText="Description détaillée du local (équipements, ambiance, services inclus...)"/>
+        </GridPane>
+
+        <!-- Separator -->
+        <Separator style="-fx-background-color: #e2e8f0;" maxWidth="Infinity">
+            <VBox.margin>
+                <Insets top="10" bottom="10"/>
+            </VBox.margin>
+        </Separator>
+
+        <!-- Image Upload Section -->
+        <VBox spacing="15" alignment="CENTER">
+            <Label text="📸 Images du local"
+                   style="-fx-font-weight: bold; -fx-font-size: 16; -fx-text-fill: #2d3748;"/>
+
+            <StackPane style="-fx-border-color: #cbd5e0; -fx-border-radius: 12; -fx-background-color: #f7fafc; -fx-padding: 20; -fx-border-width: 2; -fx-border-style: dashed;">
+                <VBox spacing="10" alignment="CENTER">
+                    <ImageView fx:id="imagePreview" fitWidth="400" fitHeight="300" preserveRatio="true"
+                               style="-fx-background-radius: 8;"/>
+                    <Label text="Prévisualisation de l'image"
+                           style="-fx-text-fill: #718096; -fx-font-size: 12; -fx-font-style: italic;"/>
+                </VBox>
+            </StackPane>
+
+            <Button text="📁 Sélectionner une image" onAction="#handleSelectImage"
+                    style="-fx-background-color: linear-gradient(to bottom, #4299e1, #3182ce); -fx-text-fill: white; -fx-padding: 12 24; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 14; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);"/>
+        </VBox>
+    </VBox>
+
+    <!-- Action Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="❌ Annuler"
+                style="-fx-background-color: linear-gradient(to bottom, #e53e3e, #c53030); -fx-text-fill: white; -fx-padding: 14 28; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);"/>
+
+        <Button fx:id="ajouterButton" text="✅ Ajouter le local" onAction="#handleAjouter"
+                style="-fx-background-color: linear-gradient(to bottom, #48bb78, #38a169); -fx-text-fill: white; -fx-padding: 14 28; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);"/>
     </HBox>
-    
+
 </VBox>

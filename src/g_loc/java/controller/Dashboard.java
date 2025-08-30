@@ -4,8 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +22,19 @@ public class Dashboard {
         // Load initial content
         switchScene("Accueil.fxml");
     }
+    private void redirectToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) contentArea.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("EventaPlan - Login");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void Ajouter_Local() {
@@ -33,6 +48,10 @@ public class Dashboard {
     
     @FXML
     public void openBackoffice() {
+        if (!UserSession.isAdmin()) {
+            showError("Access Denied", "Only administrators can access the backoffice.");
+            return;
+        }
         try {
             // Try to load using a more direct approach
             URL resource = getClass().getClassLoader().getResource("VenueBackoffice.fxml");
@@ -95,6 +114,16 @@ public class Dashboard {
     
     @FXML
     public void OuvrirPanier(ActionEvent actionEvent) {
-        switchScene("Panier.fxml");
+        if (UserSession.isLoggedIn()) {
+            switchScene("Panier.fxml");
+        } else {
+            redirectToLogin();
+        }
     }
+    @FXML
+    public void logout() {
+        UserSession.logout();
+        redirectToLogin();
+    }
+
 }

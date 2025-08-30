@@ -30,7 +30,7 @@
                     <Label text="MON PANIER" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2196F3; -fx-translate-x: -18;" />
                     <Label fx:id="cartItemsCount" text="(0 RÉSERVATIONS)" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2196F3; -fx-translate-x: -14;" />
                 </HBox>
-                
+
                 <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                     <Circle radius="18" style="-fx-fill: #e0e0e0;" />
                     <Label text="2" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #757575; -fx-translate-x: -28;" />
@@ -38,7 +38,7 @@
                     <Label text=">" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #757575; -fx-translate-x: -5;" />
                 </HBox>
             </HBox>
-            
+
             <Separator style="-fx-background-color: #e0e0e0;"/>
         </VBox>
     </top>
@@ -47,9 +47,9 @@
     <center>
         <VBox style="-fx-background-color: white; -fx-padding: 0 60 20 60; -fx-spacing: 0;">
             <!-- Cart Items with fixed height and no empty space -->
-            <ScrollPane fx:id="cartItemsScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" 
-                style="-fx-background-color: white; -fx-border-width: 0; -fx-padding: 0; -fx-border-color: white;" 
-                VBox.vgrow="NEVER" prefHeight="0" maxHeight="0">
+            <ScrollPane fx:id="cartItemsScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                        style="-fx-background-color: white; -fx-border-width: 0; -fx-padding: 0; -fx-border-color: white;"
+                        VBox.vgrow="NEVER" prefHeight="0" maxHeight="0">
                 <VBox fx:id="cartItemsList" spacing="0" style="-fx-background-color: white;">
                     <!-- Cart items will be added here dynamically -->
                 </VBox>
@@ -57,7 +57,7 @@
                     <Insets right="10" />
                 </padding>
             </ScrollPane>
-            
+
             <!-- Empty Cart Placeholder -->
             <StackPane fx:id="emptyCartPlaceholder" visible="false" style="-fx-padding: 20 0 0 0;" VBox.vgrow="NEVER">
                 <VBox alignment="CENTER" spacing="20">
@@ -71,7 +71,7 @@
                     </Button>
                 </VBox>
             </StackPane>
-            
+
             <!-- Order Summary & Actions - No padding to reduce space -->
             <VBox spacing="10" style="-fx-padding: 5 0 0 0;">
                 <!-- Promo Code & Shipping -->
@@ -80,20 +80,20 @@
                         <TextField promptText="Code promotionnel" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 8 12; -fx-min-width: 200;" />
                         <Button text="OK" style="-fx-background-color: #e0e0e0; -fx-text-fill: #424242; -fx-padding: 8 20; -fx-cursor: hand;" />
                     </HBox>
-                    
+
                     <HBox spacing="10" alignment="CENTER_RIGHT">
                         <Label text="FRANCE" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #424242; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 8 15;" />
                         <Label text="MONDIAL RELAY" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #424242; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 8 15;" />
                         <Label text="2,99€" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #424242; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 8 15;" />
                     </HBox>
                 </HBox>
-                
+
                 <!-- Total -->
                 <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #f5f5f5; -fx-padding: 15; -fx-background-radius: 4;">
                     <Label text="TOTAL : " style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #424242;" />
                     <Label fx:id="totalLabel" text="0,00€" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2196F3;" />
                 </HBox>
-                
+
                 <!-- Action Buttons -->
                 <HBox spacing="20" alignment="CENTER">
                     <Button onAction="#Liste_Locaux" text="CONTINUER MES ACHATS" style="-fx-background-color: #212121; -fx-text-fill: white; -fx-padding: 12 24; -fx-font-weight: bold; -fx-cursor: hand;" />
