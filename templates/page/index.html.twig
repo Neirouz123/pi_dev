@@ -1,0 +1,1476 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salle de Fête - Book Your Dream Venue{% endblock %}
+
+{% block stylesheets %}
+    
+    <style>
+        :root {
+            --royal-blue: #1a237e;
+            --luxury-gold: #ffd700;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, #3949ab 25%, #5c6bc0 50%, #7986cb 75%, #9fa8da 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background decorations */
+        .bg-decoration {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .balloon {
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--luxury-gold), #ffed4e);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 20%;
+            left: 10%;
+        }
+
+        .balloon:before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.3);
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .champagne {
+            width: 40px;
+            height: 100px;
+            background: linear-gradient(to bottom, var(--luxury-gold) 0%, #ffed4e 30%, #2e7d32 30%, #4caf50 100%);
+            border-radius: 0 0 50% 50%;
+            top: 60%;
+            right: 15%;
+            animation-delay: -2s;
+        }
+
+        .music-note {
+            width: 50px;
+            height: 50px;
+            background: var(--luxury-gold);
+            border-radius: 50% 0 50% 0;
+            top: 80%;
+            left: 80%;
+            animation-delay: -4s;
+        }
+
+        .confetti {
+            width: 20px;
+            height: 20px;
+            background: var(--luxury-gold);
+            top: 10%;
+            right: 30%;
+            animation: confetti-fall 8s linear infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        /* Glassmorphism effects */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-navbar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, white, var(--luxury-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        /* Sign In Form */
+        .signin-card {
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: var(--luxury-gold);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--luxury-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            outline: none;
+            color: white;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .form-select option {
+            background: var(--royal-blue);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn-signin {
+            background: linear-gradient(45deg, var(--luxury-gold), #ffed4e);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--royal-blue);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-signin:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-reserve {
+            background: linear-gradient(45deg, var(--luxury-gold), #ffed4e);
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--royal-blue);
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-reserve:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-reserve:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-reserve:hover:before {
+            left: 100%;
+        }
+
+        .btn-signout {
+            background: rgba(220, 53, 69, 0.8);
+            border: none;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-signout:hover {
+            background: rgba(220, 53, 69, 1);
+            transform: translateY(-2px);
+        }
+
+        /* User Status */
+        .user-status {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--luxury-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--royal-blue);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--luxury-gold);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Venue Types */
+        .venue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .venue-card {
+            position: relative;
+            height: 250px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .venue-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .venue-card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--royal-blue), #5c6bc0);
+            opacity: 0.9;
+        }
+
+        .venue-card-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .venue-icon {
+            font-size: 4rem;
+            color: var(--luxury-gold);
+            margin-bottom: 1rem;
+        }
+
+        .venue-actions {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .venue-card:hover .venue-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .venue-actions .btn {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .venue-actions .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .cart-status-indicator {
+            position: sticky;
+            top: 80px;
+            z-index: 1000;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .btn-reserve {
+                width: 100%;
+            }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--luxury-gold);
+            border-radius: 50%;
+            animation: particle-float 10s linear infinite;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Navigation Styles */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            margin: 0 0.5rem;
+            color: white !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--luxury-gold) !important;
+        }
+
+        /* Events Section */
+        .events-section {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 0;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            color: white;
+        }
+
+        /* Alert Messages */
+        .alert {
+            border-radius: 15px;
+            border: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.2);
+            color: #d4edda;
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            color: #f8d7da;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal-content.glass-card {
+            background: rgba(26, 35, 126, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+        }
+
+        .modal-header {
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-body {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Reservation Details */
+        .reservation-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- Background Decorations -->
+    <div class="bg-decoration">
+        <div class="floating-element balloon"></div>
+        <div class="floating-element champagne"></div>
+        <div class="floating-element music-note"></div>
+        <div class="floating-element confetti"></div>
+        
+        <!-- Floating particles -->
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1s;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="glass-navbar fixed-top">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center py-3">
+                <div class="d-flex align-items-center">
+                    <span style="font-size: 2rem; color: #ffd700;">🎉</span>
+                    <span class="ms-2 text-white fw-bold fs-4">Salle de Fête</span>
+                </div>
+                <div class="d-none d-md-flex gap-4">
+                    <a href="#venues" class="nav-link text-decoration-none">Venues</a>
+                    <a href="#events" class="nav-link text-decoration-none">Events</a>
+                    <a href="#contact" class="nav-link text-decoration-none">Contact</a>
+                    <a href="{{ path('app_cart_demo') }}" class="nav-link text-decoration-none">
+                        🛒 Cart Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="hero-title">
+                        <span style="font-size: 3rem;">🎊</span> Your Perfect Celebration Awaits
+                    </h1>
+                    <p class="hero-subtitle">
+                        Luxury event venues for unforgettable moments. From intimate gatherings to grand celebrations, 
+                        we create the perfect atmosphere for your special day.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 mb-4">
+                        <span style="font-size: 2rem;">🥂</span>
+                        <span style="font-size: 2rem;">🎵</span>
+                        <span style="font-size: 2rem;">✨</span>
+                        <span style="font-size: 2rem;">🎈</span>
+                        <span style="font-size: 2rem;">🎉</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Status Indicator -->
+    <div class="cart-status-indicator" id="cartStatusIndicator" style="display: none;">
+        <div class="container">
+            <div class="alert alert-info text-center mb-0">
+                <span style="font-size: 1.2rem;">🛒</span>
+                <span id="cartStatusText">Items in your cart</span>
+                <button class="btn btn-sm btn-outline-primary ms-3" onclick="window.cart?.toggleCart()">
+                    View Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Status Section -->
+    {% if user %}
+        <section class="py-3">
+            <div class="container">
+                <div class="user-status">
+                    <div class="user-avatar">
+                        <span>👤</span>
+                    </div>
+                    <h5 class="text-white mb-2">Welcome, {{ user.username }}!</h5>
+                    <p class="text-white-50 mb-2">Role: {{ user.role|title }}</p>
+                    <form method="POST" style="display: inline;">
+                        <button type="submit" name="signout" class="btn btn-signout">Sign Out</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <!-- Sign In Section -->
+        <section class="py-3">
+            <div class="container">
+                <div class="signin-card">
+                    <div class="glass-card p-4">
+                        <h4 class="text-white text-center mb-3">
+                            <span style="font-size: 1.5rem; color: #ffd700;">🔐</span>
+                            Sign In to Book
+                        </h4>
+                        <form method="POST">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password" placeholder="Enter your password" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" name="signin" class="btn btn-signin">Sign In</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <!-- Alert Messages -->
+    {% if error %}
+        <section class="py-2">
+            <div class="container">
+                <div class="alert alert-danger text-center">
+                    <span style="font-size: 1.2rem;">⚠️</span> {{ error }}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {% if success %}
+        <section class="py-2">
+            <div class="container">
+                <div class="alert alert-success text-center">
+                    <span style="font-size: 1.2rem;">✅</span> {{ success }}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <!-- Booking Form Section (Only for authenticated users) -->
+    {% if user %}
+        <section class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="text-white mb-3">
+                        <span style="font-size: 2rem; color: #ffd700;">🏰</span>
+                        Available Venues
+                    </h2>
+                    <p class="text-white-50">Choose from our available celebration spaces</p>
+                </div>
+
+                <div class="row">
+                    {% for venue in venues %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="glass-card h-100 p-4">
+                                <div class="text-center mb-3">
+                                    <div class="venue-icon mb-3">
+                                        {% if venue.capacite > 150 %}
+                                            🏰
+                                        {% elseif venue.capacite > 100 %}
+                                            💎
+                                        {% elseif venue.capacite > 50 %}
+                                            🌸
+                                        {% else %}
+                                            🎭
+                                        {% endif %}
+                                    </div>
+                                    <h4 class="text-white mb-2">{{ venue.nom }}</h4>
+                                    <p class="text-white-50 mb-3">{{ venue.description|default('Perfect venue for your celebration') }}</p>
+                                </div>
+
+                                <div class="venue-details mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-white-50">📍 Address:</span>
+                                        <span class="text-white">{{ venue.adresse }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-white-50">👥 Capacity:</span>
+                                        <span class="text-white">{{ venue.capacite }} guests</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-white-50">💰 Price:</span>
+                                        <span class="text-warning fw-bold">{{ venue.prix }} DT</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-white-50">📅 Status:</span>
+                                        {% if venue.disponible %}
+                                            <span class="badge bg-success">Available</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Booked</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                {% if venue.disponible %}
+                                    <div class="d-grid">
+                                        <button class="btn btn-reserve" onclick="showBookingForm({{ venue.id }}, '{{ venue.nom }}', {{ venue.prix }})">
+                                            <span style="font-size: 1.2rem; margin-right: 10px;">✨</span>
+                                            Book This Venue
+                                            <span style="font-size: 1.2rem; margin-left: 10px;">🎉</span>
+                                        </button>
+                                    </div>
+                                {% else %}
+                                    <div class="d-grid">
+                                        <button class="btn btn-secondary" disabled>
+                                            <span style="font-size: 1.2rem;">🔒</span>
+                                            Currently Booked
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-12 text-center">
+                            <div class="glass-card p-5">
+                                <h3 class="text-white mb-3">
+                                    <span style="font-size: 2rem; color: #ffd700;">📋</span>
+                                    No Venues Available
+                                </h3>
+                                <p class="text-white-50 fs-5">All our venues are currently booked. Please check back later!</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- User Reservations Section -->
+        {% if userReservations|length > 0 %}
+            <section class="py-5">
+                <div class="container">
+                    <div class="text-center mb-5">
+                        <h2 class="text-white mb-3">
+                            <span style="font-size: 2rem; color: #ffd700;">📋</span>
+                            My Reservations
+                        </h2>
+                        <p class="text-white-50">Your booking history and upcoming events</p>
+                    </div>
+
+                    <div class="row">
+                        {% for reservation in userReservations %}
+                            <div class="col-lg-6 mb-4">
+                                <div class="glass-card p-4">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="text-white mb-0">{{ reservation.local.nom }}</h5>
+                                        <span class="badge {% if reservation.statut == 'Confirmée' %}bg-success{% elseif reservation.statut == 'En attente' %}bg-warning{% else %}bg-secondary{% endif %}">
+                                            {{ reservation.statut }}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="reservation-details">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-white-50">📅 Date:</span>
+                                            <span class="text-white">{{ reservation.date|date('d/m/Y') }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-white-50">⏰ Time:</span>
+                                            <span class="text-white">{{ reservation.heureDebut|date('H:i') }} - {{ reservation.heureFin|date('H:i') }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-white-50">💰 Price:</span>
+                                            <span class="text-warning fw-bold">{{ reservation.prix }} DT</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-white-50">📍 Address:</span>
+                                            <span class="text-white">{{ reservation.local.adresse }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-white-50">📅 Booked on:</span>
+                                            <span class="text-white">{{ reservation.createdAt|date('d/m/Y H:i') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    {% else %}
+        <!-- Sign In Required Message -->
+        <section class="py-5">
+            <div class="container">
+                <div class="text-center">
+                    <div class="glass-card p-5">
+                        <h3 class="text-white mb-3">
+                            <span style="font-size: 2rem; color: #ffd700;">🔒</span>
+                            Sign In Required
+                        </h3>
+                        <p class="text-white-50 fs-5 mb-4">Please sign in above to view and book available venues</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <span style="font-size: 2rem;">🏰</span>
+                            <span style="font-size: 2rem;">🎊</span>
+                            <span style="font-size: 2rem;">✨</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <!-- Venue Types Section -->
+    <section class="features-section" id="venues">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="text-white mb-3">
+                    <span style="font-size: 2rem; color: #ffd700;">🏛️</span>
+                    Our Luxury Venues
+                </h2>
+                <p class="text-white-50 fs-5">Choose from our collection of stunning celebration spaces</p>
+            </div>
+
+            <div class="venue-grid">
+                <div class="venue-card glass-card">
+                    <div class="venue-card-bg"></div>
+                    <div class="venue-card-content">
+                        <div class="venue-icon">🏰</div>
+                        <h4>Grand Ballroom</h4>
+                        <p>Perfect for weddings and large celebrations</p>
+                        <div class="venue-actions mt-3">
+                            <button class="btn btn-sm btn-outline-warning me-2" onclick="quickAddToCart('Grand Ballroom', 1500)">
+                                🛒 Quick Add
+                            </button>
+                            <button class="btn btn-sm btn-reserve" onclick="showBookingForm(1, 'Grand Ballroom', 1500)">
+                                📋 Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="venue-card glass-card">
+                    <div class="venue-card-bg"></div>
+                    <div class="venue-card-content">
+                        <div class="venue-icon">💎</div>
+                        <h4>Crystal Hall</h4>
+                        <p>Elegant space with crystal chandeliers</p>
+                        <div class="venue-actions mt-3">
+                            <button class="btn btn-sm btn-outline-warning me-2" onclick="quickAddToCart('Crystal Hall', 1200)">
+                                🛒 Quick Add
+                            </button>
+                            <button class="btn btn-sm btn-reserve" onclick="showBookingForm(2, 'Crystal Hall', 1200)">
+                                📋 Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="venue-card glass-card">
+                    <div class="venue-card-bg"></div>
+                    <div class="venue-card-content">
+                        <div class="venue-icon">🌸</div>
+                        <h4>Garden Pavilion</h4>
+                        <p>Outdoor beauty with natural charm</p>
+                        <div class="venue-actions mt-3">
+                            <button class="btn btn-sm btn-outline-warning me-2" onclick="quickAddToCart('Garden Pavilion', 1000)">
+                                🛒 Quick Add
+                            </button>
+                            <button class="btn btn-sm btn-reserve" onclick="showBookingForm(3, 'Garden Pavilion', 1000)">
+                                📋 Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card">
+                                <div class="feature-icon">🎨</div>
+                                <h5 class="text-white fw-bold">Custom Decoration</h5>
+                                <p class="text-white-50">Professional decoration services to match your vision and theme</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card">
+                                <div class="feature-icon">🍽️</div>
+                                <h5 class="text-white fw-bold">Gourmet Catering</h5>
+                                <p class="text-white-50">Exquisite cuisine prepared by our award-winning chefs</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card">
+                                <div class="feature-icon">🎵</div>
+                                <h5 class="text-white fw-bold">Premium Sound</h5>
+                                <p class="text-white-50">State-of-the-art audio and lighting systems</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card">
+                                <div class="feature-icon">💫</div>
+                                <h5 class="text-white fw-bold">Full Service</h5>
+                                <p class="text-white-50">Complete event planning from concept to celebration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="text-center mb-5">
+                        <h2 class="text-white mb-3">
+                            <span style="font-size: 2rem; color: #ffd700;">📞</span>
+                            Contact Us
+                        </h2>
+                        <p class="text-white-50 fs-5">Get in touch for any questions about our venues and services</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="contact-info">
+                                <h4 class="text-white mb-3">Get in Touch</h4>
+                                <p class="text-white-50 mb-4">We're here to help you plan your perfect celebration.</p>
+                                
+                                <div class="d-flex align-items-center mb-3">
+                                    <span style="font-size: 1.5rem; color: #ffd700; margin-right: 1rem;">📞</span>
+                                    <div>
+                                        <strong class="text-white">Phone:</strong><br>
+                                        <span class="text-white-50">+216 XX XXX XXX</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex align-items-center mb-3">
+                                    <span style="font-size: 1.5rem; color: #ffd700; margin-right: 1rem;">📧</span>
+                                    <div>
+                                        <strong class="text-white">Email:</strong><br>
+                                        <span class="text-white-50">info@salledefete.com</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex align-items-center mb-3">
+                                    <span style="font-size: 1.5rem; color: #ffd700; margin-right: 1rem;">📍</span>
+                                    <div>
+                                        <strong class="text-white">Address:</strong><br>
+                                        <span class="text-white-50">123 Celebration Street<br>Tunis, Tunisia</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="glass-card p-4">
+                                <h4 class="text-white mb-3">Send us a Message</h4>
+                                <form>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Your full name" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" placeholder="your@email.com" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <textarea class="form-control" rows="4" placeholder="Tell us about your event or ask any questions..."></textarea>
+                                    </div>
+                                    
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-reserve">Send Message</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 text-center">
+        <div class="container">
+            <div class="glass-card p-5">
+                <h2 class="text-white mb-3">
+                    <span style="font-size: 2rem; color: #ffd700;">🎊</span>
+                    Ready to Create Magic?
+                </h2>
+                <p class="text-white-50 fs-5 mb-4">Join thousands of satisfied clients who trusted us with their most important celebrations</p>
+                <div class="d-flex justify-content-center gap-4 text-white">
+                    <div>
+                        <div class="fs-2 fw-bold text-warning">500+</div>
+                        <small>Events Hosted</small>
+                    </div>
+                    <div>
+                        <div class="fs-2 fw-bold text-warning">98%</div>
+                        <small>Client Satisfaction</small>
+                    </div>
+                    <div>
+                        <div class="fs-2 fw-bold text-warning">5★</div>
+                        <small>Average Rating</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="text-white">Salle de Fête</h5>
+                    <p class="text-white-50">Professional party and event hall booking system</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-white-50">&copy; 2024 Salle de Fête. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Form Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content glass-card">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-white" id="bookingModalLabel">
+                        <span style="font-size: 1.5rem; color: #ffd700;">🎉</span>
+                        Book Your Venue
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/" id="bookingForm">
+                        <input type="hidden" name="book_venue" value="1">
+                        <input type="hidden" name="venue_id" id="venue_id">
+                        <input type="hidden" name="prix" id="venue_price">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-white">🏰 Venue</label>
+                                <input type="text" class="form-control" id="venue_name" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white">💰 Price</label>
+                                <input type="text" class="form-control" id="venue_price_display" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-white">📅 Event Date</label>
+                                <input type="date" class="form-control" name="date" required min="{{ "now"|date("Y-m-d") }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white">⏰ Start Time</label>
+                                <input type="time" class="form-control" name="heure_debut" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-white">⏰ End Time</label>
+                                <input type="time" class="form-control" name="heure_fin" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white">👥 Number of Guests</label>
+                                <input type="number" class="form-control" name="guests" placeholder="Expected guests" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white">💭 Special Requirements</label>
+                            <textarea class="form-control" name="notes" rows="3" placeholder="Any special requests or requirements..."></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-info mb-2" onclick="testFormData()">
+                                🔍 Test Form Data
+                            </button>
+                            <button type="button" class="btn btn-warning mb-2" onclick="addToCartFromForm()">
+                                🛒 Add to Cart
+                            </button>
+                            <button type="submit" class="btn btn-reserve">
+                                <span style="font-size: 1.2rem; margin-right: 10px;">✨</span>
+                                Confirm Booking
+                                <span style="font-size: 1.2rem; margin-left: 10px;">🎉</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Venue selection and booking
+        function showBookingForm(venueId, venueName, venuePrice) {
+            console.log('=== OPENING BOOKING FORM ===');
+            console.log('Parameters received:', {venueId, venueName, venuePrice});
+            
+            // Set the hidden field values
+            const venueIdField = document.getElementById('venue_id');
+            const venueNameField = document.getElementById('venue_name');
+            const venuePriceField = document.getElementById('venue_price');
+            const venuePriceDisplayField = document.getElementById('venue_price_display');
+            
+            if (!venueIdField || !venueNameField || !venuePriceField || !venuePriceDisplayField) {
+                console.error('One or more form fields not found!');
+                return;
+            }
+            
+            venueIdField.value = venueId;
+            venueNameField.value = venueName;
+            venuePriceField.value = venuePrice;
+            venuePriceDisplayField.value = venuePrice + ' DT';
+            
+            // Verify the values were set
+            console.log('Hidden fields set to:');
+            console.log('venue_id:', venueIdField.value);
+            console.log('venue_name:', venueNameField.value);
+            console.log('venue_price:', venuePriceField.value);
+            console.log('venue_price_display:', venuePriceDisplayField.value);
+            
+            // Double-check the form data
+            const form = document.getElementById('bookingForm');
+            const formData = new FormData(form);
+            console.log('Form data after setting fields:');
+            console.log('venue_id in form:', formData.get('venue_id'));
+            console.log('prix in form:', formData.get('prix'));
+            
+            new bootstrap.Modal(document.getElementById('bookingModal')).show();
+        }
+
+        // Form submission handling
+        document.getElementById('bookingForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted!');
+            
+            // Get form data
+            const formData = new FormData(this);
+            const venueId = formData.get('venue_id');
+            const date = formData.get('date');
+            const heureDebut = formData.get('heure_debut');
+            const heureFin = formData.get('heure_fin');
+            const prix = formData.get('prix');
+            const bookVenue = formData.get('book_venue');
+            
+            console.log('Form data:', {
+                bookVenue,
+                venueId,
+                date,
+                heureDebut,
+                heureFin,
+                prix
+            });
+            
+            // Check if hidden fields have values
+            console.log('Hidden field values:');
+            console.log('venue_id field:', document.getElementById('venue_id').value);
+            console.log('venue_price field:', document.getElementById('venue_price').value);
+            
+            // Validation
+            if (!venueId || !date || !heureDebut || !heureFin || !prix) {
+                console.log('Validation failed - missing fields');
+                console.log('Venue ID is:', venueId ? venueId : 'NULL/EMPTY');
+                console.log('Date is:', date ? date : 'NULL/EMPTY');
+                console.log('Start time is:', heureDebut ? heureDebut : 'NULL/EMPTY');
+                console.log('End time is:', heureFin ? heureFin : 'NULL/EMPTY');
+                console.log('Price is:', prix ? prix : 'NULL/EMPTY');
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            // Check if end time is after start time
+            if (heureFin <= heureDebut) {
+                console.log('Time validation failed');
+                showNotification('End time must be after start time', 'error');
+                return;
+            }
+
+            // Check if date is not in the past
+            const selectedDate = new Date(date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < today) {
+                console.log('Date validation failed');
+                showNotification('Event date cannot be in the past', 'error');
+                return;
+            }
+
+            console.log('Form validation passed, submitting...');
+            console.log('Final form data being sent:', {
+                venue_id: venueId,
+                date: date,
+                heure_debut: heureDebut,
+                heure_fin: heureFin,
+                prix: prix,
+                book_venue: bookVenue
+            });
+            
+            // Submit form
+            this.submit();
+        });
+
+        // Show notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} position-fixed`;
+            notification.style.cssText = `
+                top: 100px;
+                right: 20px;
+                z-index: 10000;
+                min-width: 300px;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 15px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            `;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="me-2">${message}</div>
+                    <button type="button" class="btn-close btn-close-white ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Add more floating particles dynamically
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            document.querySelector('.bg-decoration').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 13000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add hover effects to venue cards
+        document.querySelectorAll('.venue-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const venueType = this.querySelector('h4').textContent;
+                const venueSelect = document.querySelector('select[name="venue"]');
+                
+                if (venueSelect) {
+                    // Map display names to option values
+                    const venueMap = {
+                        'Grand Ballroom': 'grand_ballroom',
+                        'Crystal Hall': 'crystal_hall',
+                        'Garden Pavilion': 'garden_pavilion'
+                    };
+                    
+                    if (venueMap[venueType]) {
+                        venueSelect.value = venueMap[venueType];
+                        venueSelect.style.borderColor = 'var(--luxury-gold)';
+                        venueSelect.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.3)';
+                        
+                        // Scroll to booking form
+                        document.querySelector('.booking-card')?.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Update cart status indicator
+        function updateCartStatusIndicator() {
+            const indicator = document.getElementById('cartStatusIndicator');
+            const statusText = document.getElementById('cartStatusText');
+            
+            if (window.cart && window.cart.items.length > 0) {
+                const itemCount = window.cart.items.length;
+                const total = window.cart.total;
+                statusText.textContent = `${itemCount} item(s) in your cart - Total: ${total.toFixed(2)}€`;
+                indicator.style.display = 'block';
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+
+        // Listen for cart updates
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for cart to be initialized
+            setTimeout(() => {
+                if (window.cart) {
+                    // Override the updateCart method to also update the indicator
+                    const originalUpdateCart = window.cart.updateCart;
+                    window.cart.updateCart = function() {
+                        originalUpdateCart.call(this);
+                        updateCartStatusIndicator();
+                    };
+                    
+                    // Initial update
+                    updateCartStatusIndicator();
+                }
+            }, 1000);
+        });
+
+        // Function to test form data
+        function testFormData() {
+            const form = document.getElementById('bookingForm');
+            const formData = new FormData(form);
+            let testMessage = 'Form Data (Hidden Fields):\n';
+            testMessage += 'venue_id: ' + formData.get('venue_id') + '\n';
+            testMessage += 'prix: ' + formData.get('prix') + '\n';
+            testMessage += 'date: ' + formData.get('date') + '\n';
+            testMessage += 'heure_debut: ' + formData.get('heure_debut') + '\n';
+            testMessage += 'heure_fin: ' + formData.get('heure_fin') + '\n';
+            testMessage += 'guests: ' + formData.get('guests') + '\n';
+            testMessage += 'notes: ' + formData.get('notes') + '\n';
+            testMessage += 'book_venue: ' + formData.get('book_venue');
+
+            alert(testMessage);
+            console.log('Form Data (Hidden Fields):', {
+                venue_id: formData.get('venue_id'),
+                prix: formData.get('prix'),
+                date: formData.get('date'),
+                heure_debut: formData.get('heure_debut'),
+                heure_fin: formData.get('heure_fin'),
+                guests: formData.get('guests'),
+                notes: formData.get('notes'),
+                book_venue: formData.get('book_venue')
+            });
+        }
+
+        // Function to add venue to cart from form
+        function addToCartFromForm() {
+            const form = document.getElementById('bookingForm');
+            const formData = new FormData(form);
+            
+            // Validate required fields
+            const date = formData.get('date');
+            const heureDebut = formData.get('heure_debut');
+            const heureFin = formData.get('heure_fin');
+            const guests = formData.get('guests');
+            
+            if (!date || !heureDebut || !heureFin || !guests) {
+                alert('Please fill in all required fields before adding to cart!');
+                return;
+            }
+            
+            // Create cart item
+            const cartItem = {
+                id: formData.get('venue_id'),
+                venueName: document.getElementById('venue_name').value,
+                prix: formData.get('prix'),
+                date: date,
+                heureDebut: heureDebut,
+                heureFin: heureFin,
+                guests: guests,
+                notes: formData.get('notes') || ''
+            };
+            
+            // Add to cart
+            if (window.cart) {
+                window.cart.addToCart(cartItem);
+                
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Show success message
+                showNotification('Venue added to cart successfully! 🎉', 'success');
+            } else {
+                alert('Cart system not available. Please refresh the page.');
+            }
+        }
+
+        // Function to quickly add venue to cart (with default values)
+        function quickAddToCart(venueName, prix) {
+            // Create a cart item with default values
+            const cartItem = {
+                id: Date.now(), // Generate a unique ID
+                venueName: venueName,
+                prix: prix,
+                date: new Date().toISOString().split('T')[0], // Today's date
+                heureDebut: '18:00', // Default start time
+                heureFin: '23:00', // Default end time
+                guests: 50, // Default guest count
+                notes: 'Added via quick add'
+            };
+            
+            // Add to cart
+            if (window.cart) {
+                window.cart.addToCart(cartItem);
+                showNotification(`${venueName} added to cart! 🎉`, 'success');
+            } else {
+                alert('Cart system not available. Please refresh the page.');
+            }
+        }
+    </script>
+{% endblock %}

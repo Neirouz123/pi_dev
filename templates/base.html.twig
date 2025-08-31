@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Salle de Fête - Book Your Dream Venue{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    
+    <style>
+        :root {
+            --royal-blue: #1a237e;
+            --luxury-gold: #ffd700;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --cart-bg: rgba(255, 255, 255, 0.95);
+            --cart-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--royal-blue) 0%, #3949ab 25%, #5c6bc0 50%, #7986cb 75%, #9fa8da 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Sliding Cart Styles */
+        .sliding-cart {
+            position: fixed;
+            top: 50%;
+            right: -400px;
+            width: 380px;
+            height: 600px;
+            background: var(--cart-bg);
+            border-radius: 20px 0 0 20px;
+            box-shadow: var(--cart-shadow);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform: translateY(-50%);
+        }
+
+        .sliding-cart.open {
+            right: 0;
+            transform: translateY(-50%) rotateY(0deg);
+        }
+
+        .sliding-cart.closed {
+            right: -400px;
+            transform: translateY(-50%) rotateY(15deg);
+        }
+
+        .cart-header {
+            background: linear-gradient(135deg, var(--royal-blue), #3949ab);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 0 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .cart-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .cart-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .cart-content {
+            padding: 20px;
+            height: calc(100% - 80px);
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--luxury-gold);
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            color: var(--royal-blue);
+            margin: 0;
+        }
+
+        .cart-item-price {
+            color: var(--luxury-gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .cart-item-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cart-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn-remove {
+            background: #ff4757;
+            color: white;
+        }
+
+        .cart-btn-remove:hover {
+            background: #ff3742;
+            transform: scale(1.05);
+        }
+
+        .cart-btn-edit {
+            background: var(--royal-blue);
+            color: white;
+        }
+
+        .cart-btn-edit:hover {
+            background: #0d47a1;
+            transform: scale(1.05);
+        }
+
+        .cart-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--royal-blue), #3949ab);
+            padding: 20px;
+            border-radius: 0 0 20px 0;
+            color: white;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .cart-total-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .cart-total-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--luxury-gold);
+        }
+
+        .cart-checkout-btn {
+            width: 100%;
+            background: var(--luxury-gold);
+            color: var(--royal-blue);
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cart-checkout-btn:hover {
+            background: #ffed4e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .cart-checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Cart Toggle Button */
+        .cart-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--luxury-gold), #ffed4e);
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-toggle:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .cart-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .cart-toggle-icon {
+            font-size: 1.8rem;
+            color: var(--royal-blue);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Empty Cart State */
+        .cart-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .cart-empty-icon {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .cart-empty-text {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Cart Animation Classes */
+        .cart-slide-in {
+            animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .cart-slide-out {
+            animation: slideOut 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes slideIn {
+            from {
+                right: -400px;
+                transform: translateY(-50%) rotateY(15deg);
+            }
+            to {
+                right: 0;
+                transform: translateY(-50%) rotateY(0deg);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                right: 0;
+                transform: translateY(-50%) rotateY(0deg);
+            }
+            to {
+                right: -400px;
+                transform: translateY(-50%) rotateY(15deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sliding-cart {
+                width: 100%;
+                right: -100%;
+                border-radius: 0;
+            }
+
+            .cart-header {
+                border-radius: 0;
+            }
+
+            .cart-footer {
+                border-radius: 0;
+            }
+
+            .cart-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Custom Scrollbar for Cart */
+        .cart-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cart-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .cart-content::-webkit-scrollbar-thumb {
+            background: var(--royal-blue);
+            border-radius: 3px;
+        }
+
+        .cart-content::-webkit-scrollbar-thumb:hover {
+            background: #0d47a1;
+        }
+    </style>
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <!-- Sliding Cart -->
+    <div class="sliding-cart" id="slidingCart">
+        <div class="cart-header">
+            <h3>🛒 Mon Panier</h3>
+            <button class="cart-close-btn" id="cartCloseBtn">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+        </div>
+        
+        <div class="cart-content" id="cartContent">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Total:</span>
+                <span class="cart-total-amount" id="cartTotal">0.00 €</span>
+            </div>
+            <button class="cart-checkout-btn" id="cartCheckoutBtn" disabled>
+                Finaliser la réservation
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Toggle Button -->
+    <button class="cart-toggle" id="cartToggle">
+        <span class="material-symbols-rounded cart-toggle-icon">shopping_cart</span>
+        <div class="cart-badge" id="cartBadge" style="display: none;">0</div>
+    </button>
+
+    <!-- Main Content -->
+    {% block body %}{% endblock %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Cart Management System
+        class SlidingCart {
+            constructor() {
+                this.isOpen = false;
+                this.items = [];
+                this.total = 0;
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.loadCartFromStorage();
+                this.updateCartDisplay();
+            }
+
+            bindEvents() {
+                // Cart toggle button
+                document.getElementById('cartToggle').addEventListener('click', () => {
+                    this.toggleCart();
+                });
+
+                // Cart close button
+                document.getElementById('cartCloseBtn').addEventListener('click', () => {
+                    this.closeCart();
+                });
+
+                // Close cart when clicking outside
+                document.addEventListener('click', (e) => {
+                    const cart = document.getElementById('slidingCart');
+                    const toggle = document.getElementById('cartToggle');
+                    
+                    if (!cart.contains(e.target) && !toggle.contains(e.target) && this.isOpen) {
+                        this.closeCart();
+                    }
+                });
+
+                // Checkout button
+                document.getElementById('cartCheckoutBtn').addEventListener('click', () => {
+                    this.checkout();
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.isOpen) {
+                        this.closeCart();
+                    }
+                });
+            }
+
+            toggleCart() {
+                if (this.isOpen) {
+                    this.closeCart();
+                } else {
+                    this.openCart();
+                }
+            }
+
+            openCart() {
+                const cart = document.getElementById('slidingCart');
+                const toggle = document.getElementById('cartToggle');
+                
+                cart.classList.remove('closed');
+                cart.classList.add('open');
+                toggle.classList.add('open');
+                this.isOpen = true;
+                
+                // Add slide-in animation
+                cart.classList.add('cart-slide-in');
+                setTimeout(() => {
+                    cart.classList.remove('cart-slide-in');
+                }, 400);
+            }
+
+            closeCart() {
+                const cart = document.getElementById('slidingCart');
+                const toggle = document.getElementById('cartToggle');
+                
+                cart.classList.remove('open');
+                cart.classList.add('closed');
+                toggle.classList.remove('open');
+                this.isOpen = false;
+                
+                // Add slide-out animation
+                cart.classList.add('cart-slide-out');
+                setTimeout(() => {
+                    cart.classList.remove('cart-slide-out');
+                }, 400);
+            }
+
+            addItem(item) {
+                // Check if item already exists
+                const existingItemIndex = this.items.findIndex(existing => 
+                    existing.id === item.id && existing.date === item.date
+                );
+
+                if (existingItemIndex !== -1) {
+                    // Update existing item
+                    this.items[existingItemIndex] = { ...this.items[existingItemIndex], ...item };
+                } else {
+                    // Add new item
+                    this.items.push({
+                        ...item,
+                        cartId: Date.now() + Math.random()
+                    });
+                }
+
+                this.updateCart();
+                this.showNotification('Item added to cart!', 'success');
+            }
+
+            removeItem(cartId) {
+                this.items = this.items.filter(item => item.cartId !== cartId);
+                this.updateCart();
+                this.showNotification('Item removed from cart!', 'info');
+            }
+
+            updateItem(cartId, updates) {
+                const itemIndex = this.items.findIndex(item => item.cartId === cartId);
+                if (itemIndex !== -1) {
+                    this.items[itemIndex] = { ...this.items[itemIndex], ...updates };
+                    this.updateCart();
+                    this.showNotification('Item updated!', 'success');
+                }
+            }
+
+            updateCart() {
+                this.calculateTotal();
+                this.updateCartDisplay();
+                this.saveCartToStorage();
+                this.updateBadge();
+            }
+
+            calculateTotal() {
+                this.total = this.items.reduce((sum, item) => {
+                    return sum + (parseFloat(item.prix) || 0);
+                }, 0);
+            }
+
+            updateCartDisplay() {
+                const cartContent = document.getElementById('cartContent');
+                const cartTotal = document.getElementById('cartTotal');
+                const checkoutBtn = document.getElementById('cartCheckoutBtn');
+
+                if (this.items.length === 0) {
+                    cartContent.innerHTML = `
+                        <div class="cart-empty">
+                            <div class="cart-empty-icon">🛒</div>
+                            <div class="cart-empty-text">Votre panier est vide</div>
+                            <small>Ajoutez des réservations pour commencer</small>
+                        </div>
+                    `;
+                    checkoutBtn.disabled = true;
+                } else {
+                    cartContent.innerHTML = this.items.map(item => this.renderCartItem(item)).join('');
+                    checkoutBtn.disabled = false;
+                }
+
+                cartTotal.textContent = `${this.total.toFixed(2)} €`;
+            }
+
+            renderCartItem(item) {
+                return `
+                    <div class="cart-item" data-cart-id="${item.cartId}">
+                        <div class="cart-item-header">
+                            <h5 class="cart-item-title">${item.venueName || 'Venue'}</h5>
+                            <span class="cart-item-price">${item.prix} €</span>
+                        </div>
+                        <div class="cart-item-details">
+                            <div><strong>Date:</strong> ${item.date}</div>
+                            <div><strong>Heure:</strong> ${item.heureDebut} - ${item.heureFin}</div>
+                            ${item.guests ? `<div><strong>Invités:</strong> ${item.guests}</div>` : ''}
+                            ${item.notes ? `<div><strong>Notes:</strong> ${item.notes}</div>` : ''}
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="cart-btn cart-btn-edit" onclick="cart.editItem(${item.cartId})">
+                                <span class="material-symbols-rounded">edit</span> Modifier
+                            </button>
+                            <button class="cart-btn cart-btn-remove" onclick="cart.removeItem(${item.cartId})">
+                                <span class="material-symbols-rounded">delete</span> Supprimer
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            editItem(cartId) {
+                const item = this.items.find(item => item.cartId === cartId);
+                if (item) {
+                    // You can implement a modal or form for editing here
+                    // For now, we'll just show an alert with the item details
+                    alert(`Editing item: ${item.venueName}\nDate: ${item.date}\nTime: ${item.heureDebut} - ${item.heureFin}`);
+                }
+            }
+
+            updateBadge() {
+                const badge = document.getElementById('cartBadge');
+                if (this.items.length > 0) {
+                    badge.textContent = this.items.length;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+            checkout() {
+                if (this.items.length === 0) {
+                    this.showNotification('Your cart is empty!', 'error');
+                    return;
+                }
+
+                // Implement checkout logic here
+                // You can redirect to a checkout page or show a modal
+                this.showNotification('Proceeding to checkout...', 'success');
+                
+                // For demo purposes, we'll just clear the cart
+                setTimeout(() => {
+                    this.items = [];
+                    this.updateCart();
+                    this.closeCart();
+                    this.showNotification('Order placed successfully!', 'success');
+                }, 2000);
+            }
+
+            showNotification(message, type = 'info') {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show`;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 10001;
+                    min-width: 300px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                `;
+                
+                notification.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+
+            saveCartToStorage() {
+                localStorage.setItem('slidingCart', JSON.stringify({
+                    items: this.items,
+                    total: this.total
+                }));
+            }
+
+            loadCartFromStorage() {
+                try {
+                    const savedCart = localStorage.getItem('slidingCart');
+                    if (savedCart) {
+                        const cartData = JSON.parse(savedCart);
+                        this.items = cartData.items || [];
+                        this.total = cartData.total || 0;
+                    }
+                } catch (error) {
+                    console.error('Error loading cart from storage:', error);
+                }
+            }
+
+            // Public method to add items from external sources
+            addToCart(itemData) {
+                this.addItem(itemData);
+            }
+
+            // Method to get cart items (useful for forms)
+            getCartItems() {
+                return this.items;
+            }
+
+            // Method to clear cart
+            clearCart() {
+                this.items = [];
+                this.updateCart();
+                this.showNotification('Cart cleared!', 'info');
+            }
+        }
+
+        // Initialize cart when DOM is loaded
+        let cart;
+        document.addEventListener('DOMContentLoaded', () => {
+            cart = new SlidingCart();
+            
+            // Make cart globally accessible
+            window.cart = cart;
+        });
+
+        // Add to cart function that can be called from anywhere
+        function addToCart(itemData) {
+            if (cart) {
+                cart.addToCart(itemData);
+            }
+        }
+    </script>
+
+    {% block javascripts %}{% endblock %}
+</body>
+</html>
