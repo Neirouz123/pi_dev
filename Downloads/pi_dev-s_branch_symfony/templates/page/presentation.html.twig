@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Material Kit 3 - Presentation{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 font-weight-bold mb-4">Material Kit 3 Presentation</h1>
+                <p class="lead mb-4">Discover the power of our comprehensive UI kit built on Bootstrap 5</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Overview -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5">
+                <h2 class="mb-4">What Makes Material Kit 3 Special</h2>
+                <p class="lead text-muted">Built with modern web standards and best practices</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <i class="material-symbols-rounded text-primary mb-3" style="font-size: 3rem;">palette</i>
+                        <h5 class="card-title">Beautiful Design</h5>
+                        <p class="card-text text-muted">Modern, clean, and professional design that follows Material Design principles.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <i class="material-symbols-rounded text-success mb-3" style="font-size: 3rem;">devices</i>
+                        <h5 class="card-title">Fully Responsive</h5>
+                        <p class="card-text text-muted">Works perfectly on all devices - desktop, tablet, and mobile.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4 text-center">
+                        <i class="material-symbols-rounded text-warning mb-3" style="font-size: 3rem;">speed</i>
+                        <h5 class="card-title">Lightning Fast</h5>
+                        <p class="card-text text-muted">Optimized for performance with minimal CSS and JavaScript.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Components Showcase -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5">
+                <h2 class="mb-4">Component Showcase</h2>
+                <p class="lead text-muted">Explore our comprehensive collection of UI components</p>
+            </div>
+        </div>
+        
+        <!-- Buttons -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Buttons</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-primary">Primary</button>
+                            <button class="btn btn-secondary">Secondary</button>
+                            <button class="btn btn-success">Success</button>
+                            <button class="btn btn-danger">Danger</button>
+                            <button class="btn btn-warning">Warning</button>
+                            <button class="btn btn-info">Info</button>
+                            <button class="btn btn-light">Light</button>
+                            <button class="btn btn-dark">Dark</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cards -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Cards</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="material-symbols-rounded text-primary mb-3" style="font-size: 2.5rem;">star</i>
+                                        <h6 class="card-title">Feature Card</h6>
+                                        <p class="card-text text-muted">Beautiful card component with icon and description.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="material-symbols-rounded text-success mb-3" style="font-size: 2.5rem;">check_circle</i>
+                                        <h6 class="card-title">Success Card</h6>
+                                        <p class="card-text text-muted">Another example of our versatile card components.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="material-symbols-rounded text-warning mb-3" style="font-size: 2.5rem;">lightbulb</i>
+                                        <h6 class="card-title">Idea Card</h6>
+                                        <p class="card-text text-muted">Perfect for showcasing ideas and concepts.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Forms -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Form Elements</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter your name">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" placeholder="Enter your email">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter your message"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="exampleCheck">
+                                    <label class="form-check-label" for="exampleCheck">
+                                        I agree to the terms and conditions
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="mb-4">Ready to Get Started?</h2>
+                <p class="lead text-muted mb-4">Join thousands of developers who are already using Material Kit 3</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ path('app_sign_up') }}" class="btn btn-primary btn-lg">Get Started Now</a>
+                    <a href="{{ path('app_contact_us') }}" class="btn btn-outline-primary btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

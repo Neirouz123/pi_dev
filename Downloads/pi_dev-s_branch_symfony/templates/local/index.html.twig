@@ -1,0 +1,98 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Local index{% endblock %}
+
+{% block body %}
+    <style>
+        .table td, .table th {
+            padding: 12px !important;
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
+        .btn-sm-custom {
+            padding: 6px 12px;
+            font-size: 1rem;
+        }
+
+        .table th {
+            background-color: #343a40;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .td-nom, .td-description {
+            max-width: 300px;
+            word-break: break-word;
+        }
+    </style>
+
+    <div class="bg-white tm-block h-100 p-4" style="max-width: 1500px; margin: 0 auto;">
+        <div class="row mb-4">
+            <div class="col-8">
+                <h2 class="tm-block-title" style="font-size: 2rem;">LISTE DES LOCAUX</h2>
+            </div>
+            <div class="col-4 text-end">
+                <a href="{{ path('app_local_new') }}" class="btn btn-primary btn-sm-custom">
+                    <i class="fas fa-plus"></i> NOUVEAU LOCAL
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>NOM</th>
+                        <th>ADRESSE</th>
+                        <th>DESCRIPTION</th>
+                        <th>CAPACITÉ</th>
+                        <th>PRIX</th>
+                        <th>DISPONIBLE</th>
+                        <th>CREATED_AT</th>
+                        <th>UPDATED_AT</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for local in locals %}
+                        <tr>
+                            <td class="td-nom">{{ local.nom }}</td>
+                            <td>{{ local.adresse }}</td>
+                            <td class="td-description">{{ local.description }}</td>
+                            <td>{{ local.capacite }}</td>
+                            <td>{{ local.prix }}</td>
+                            <td>{{ local.disponible ? '✅ Oui' : '❌ Non' }}</td>
+                            <td>{{ local.createdAt ? local.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ local.updatedAt ? local.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ path('app_local_show', {'id': local.id}) }}" class="btn btn-info btn-sm-custom" title="Voir">
+                                        👁️
+                                    </a>
+                                    <a href="{{ path('app_local_edit', {'id': local.id}) }}" class="btn btn-warning btn-sm-custom" title="Modifier">
+                                        ✏️
+                                    </a>
+                                    <a href="{{ path('app_local_delete', {'id': local.id}) }}" class="btn btn-danger btn-sm-custom" title="Supprimer">
+                                        🗑️
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center py-4" style="font-size: 1.2rem;">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                Aucun local enregistré
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

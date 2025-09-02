@@ -1,0 +1,275 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cart Demo - Sliding Cart System{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .demo-section {
+        padding: 80px 0;
+        text-align: center;
+        color: white;
+    }
+
+    .demo-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+        transition: all 0.3s ease;
+    }
+
+    .demo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .demo-btn {
+        background: linear-gradient(135deg, var(--luxury-gold), #ffed4e);
+        color: var(--royal-blue);
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-weight: 600;
+        margin: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .demo-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    }
+
+    .demo-btn.secondary {
+        background: linear-gradient(135deg, var(--royal-blue), #3949ab);
+        color: white;
+    }
+
+    .demo-btn.secondary:hover {
+        box-shadow: 0 8px 25px rgba(26, 35, 126, 0.4);
+    }
+
+    .demo-btn.danger {
+        background: linear-gradient(135deg, #ff4757, #ff3742);
+        color: white;
+    }
+
+    .demo-btn.danger:hover {
+        box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+    }
+
+    .feature-list {
+        text-align: left;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .feature-list li {
+        margin: 10px 0;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        border-left: 4px solid var(--luxury-gold);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="demo-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h1 class="display-4 mb-4">
+                    🛒 Sliding Cart Demo
+                </h1>
+                <p class="lead mb-5">
+                    Test the sliding cart system that can be used across all pages
+                </p>
+
+                <div class="demo-card">
+                    <h3>🎯 Cart Features</h3>
+                    <ul class="feature-list">
+                        <li><strong>Sliding Animation:</strong> Smooth slide-in/out with 3D rotation effects</li>
+                        <li><strong>Persistent Storage:</strong> Cart items saved in localStorage</li>
+                        <li><strong>Responsive Design:</strong> Works on all device sizes</li>
+                        <li><strong>Interactive Elements:</strong> Edit, remove, and checkout functionality</li>
+                        <li><strong>Global Access:</strong> Available on all pages that extend the base template</li>
+                        <li><strong>Keyboard Shortcuts:</strong> Press ESC to close cart</li>
+                    </ul>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🧪 Test Cart Functions</h3>
+                    <p class="mb-4">Try these buttons to test the cart functionality:</p>
+                    
+                    <button class="demo-btn" onclick="addTestItem('Grand Ballroom', 1500)">
+                        🏰 Add Grand Ballroom
+                    </button>
+                    
+                    <button class="demo-btn" onclick="addTestItem('Crystal Hall', 1200)">
+                        💎 Add Crystal Hall
+                    </button>
+                    
+                    <button class="demo-btn" onclick="addTestItem('Garden Pavilion', 1000)">
+                        🌸 Add Garden Pavilion
+                    </button>
+                    
+                    <button class="demo-btn" onclick="addTestItem('Royal Suite', 2000)">
+                        👑 Add Royal Suite
+                    </button>
+                </div>
+
+                <div class="demo-card">
+                    <h3>⚙️ Cart Management</h3>
+                    <p class="mb-4">Manage your cart items:</p>
+                    
+                    <button class="demo-btn secondary" onclick="viewCartItems()">
+                        📋 View Cart Items
+                    </button>
+                    
+                    <button class="demo-btn secondary" onclick="clearCart()">
+                        🗑️ Clear Cart
+                    </button>
+                    
+                    <button class="demo-btn secondary" onclick="getCartTotal()">
+                        💰 Get Total
+                    </button>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🎨 Customization</h3>
+                    <p class="mb-4">The cart can be customized and positioned anywhere:</p>
+                    
+                    <button class="demo-btn" onclick="toggleCartPosition()">
+                        🔄 Toggle Position
+                    </button>
+                    
+                    <button class="demo-btn" onclick="changeCartTheme()">
+                        🎨 Change Theme
+                    </button>
+                </div>
+
+                <div class="demo-card">
+                    <h3>📱 How to Use</h3>
+                    <ol class="feature-list">
+                        <li>Click the 🛒 cart button in the bottom-right corner</li>
+                        <li>Add items using the test buttons above</li>
+                        <li>View, edit, or remove items in the cart</li>
+                        <li>Use the checkout button to complete orders</li>
+                        <li>Cart persists across page refreshes</li>
+                    </ol>
+                </div>
+
+                <div class="demo-card">
+                    <h3>🔗 Integration</h3>
+                    <p class="mb-4">To use this cart on other pages:</p>
+                    <ul class="feature-list">
+                        <li>Extend from <code>base.html.twig</code></li>
+                        <li>Call <code>addToCart(itemData)</code> function</li>
+                        <li>Access cart via <code>window.cart</code> object</li>
+                        <li>Cart automatically appears on all pages</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Test functions for the demo
+    function addTestItem(venueName, prix) {
+        const testItem = {
+            id: Date.now() + Math.random(),
+            venueName: venueName,
+            prix: prix,
+            date: new Date().toISOString().split('T')[0],
+            heureDebut: '18:00',
+            heureFin: '23:00',
+            guests: Math.floor(Math.random() * 100) + 20,
+            notes: 'Demo item added via test button'
+        };
+        
+        if (window.cart) {
+            window.cart.addToCart(testItem);
+        } else {
+            alert('Cart not available. Please wait for the page to load completely.');
+        }
+    }
+
+    function viewCartItems() {
+        if (window.cart) {
+            const items = window.cart.getCartItems();
+            if (items.length === 0) {
+                alert('Cart is empty!');
+            } else {
+                let message = 'Cart Items:\n\n';
+                items.forEach((item, index) => {
+                    message += `${index + 1}. ${item.venueName} - ${item.prix}€\n`;
+                    message += `   Date: ${item.date}, Guests: ${item.guests}\n\n`;
+                });
+                alert(message);
+            }
+        } else {
+            alert('Cart not available.');
+        }
+    }
+
+    function clearCart() {
+        if (window.cart) {
+            if (confirm('Are you sure you want to clear the cart?')) {
+                window.cart.clearCart();
+            }
+        } else {
+            alert('Cart not available.');
+        }
+    }
+
+    function getCartTotal() {
+        if (window.cart) {
+            const total = window.cart.total;
+            alert(`Cart Total: ${total.toFixed(2)}€`);
+        } else {
+            alert('Cart not available.');
+        }
+    }
+
+    function toggleCartPosition() {
+        const cart = document.getElementById('slidingCart');
+        if (cart) {
+            if (cart.style.right === '0px') {
+                cart.style.right = '-400px';
+                cart.style.transform = 'translateY(-50%) rotateY(15deg)';
+            } else {
+                cart.style.right = '0px';
+                cart.style.transform = 'translateY(-50%) rotateY(0deg)';
+            }
+        }
+    }
+
+    function changeCartTheme() {
+        const cart = document.getElementById('slidingCart');
+        if (cart) {
+            const themes = [
+                'linear-gradient(135deg, #ff6b6b, #ee5a24)',
+                'linear-gradient(135deg, #4834d4, #686de0)',
+                'linear-gradient(135deg, #00b894, #00cec9)',
+                'linear-gradient(135deg, #fdcb6e, #e17055)'
+            ];
+            
+            const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+            cart.style.background = randomTheme;
+        }
+    }
+
+    // Show welcome message
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            if (window.cart) {
+                showNotification('Welcome to the Cart Demo! 🎉', 'success');
+            }
+        }, 1000);
+    });
+</script>
+{% endblock %}

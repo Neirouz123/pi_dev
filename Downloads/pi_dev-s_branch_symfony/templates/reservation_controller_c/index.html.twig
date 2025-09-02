@@ -1,0 +1,94 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+    <style>
+        .table td, .table th {
+            padding: 12px !important;
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
+        .btn-sm-custom {
+            padding: 6px 12px;
+            font-size: 1rem;
+        }
+
+        .table th {
+            background-color: #343a40;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .td-description {
+            max-width: 300px;
+            word-break: break-word;
+        }
+    </style>
+
+    <div class="bg-white tm-block h-100 p-4" style="max-width: 1500px; margin: 0 auto;">
+        <div class="row mb-4">
+            <div class="col-8">
+                <h2 class="tm-block-title" style="font-size: 2rem;">LISTE DES RÉSERVATIONS</h2>
+            </div>
+           
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                  
+                        <th>DATE</th>
+                        <th>HEURE DÉBUT</th>
+                        <th>HEURE FIN</th>
+                        <th>PRIX</th>
+                        <th>CONFIRMÉE</th>
+                        <th>STATUT</th>
+                        <th>CREATED_AT</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                      
+                            <td>{{ reservation.date ? reservation.date|date('Y-m-d') : '' }}</td>
+                            <td>{{ reservation.heureDebut ? reservation.heureDebut|date('H:i:s') : '' }}</td>
+                            <td>{{ reservation.heureFin ? reservation.heureFin|date('H:i:s') : '' }}</td>
+                            <td>{{ reservation.prix }}</td>
+                            <td>{{ reservation.isConfirmee ? '✅ Oui' : '❌ Non' }}</td>
+                            <td>{{ reservation.statut }}</td>
+                            <td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ path('app_reservation_controller_c_show', {'id': reservation.id}) }}" class="btn btn-info btn-sm-custom" title="Voir">
+                                        👁️
+                                    </a>
+                                    <a href="{{ path('app_reservation_controller_c_edit', {'id': reservation.id}) }}" class="btn btn-warning btn-sm-custom" title="Modifier">
+                                        ✏️
+                                    </a>
+                                    <a href="{{ path('app_reservation_controller_c_delete', {'id': reservation.id}) }}" class="btn btn-danger btn-sm-custom" title="Supprimer">
+                                        🗑️
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center py-4" style="font-size: 1.2rem;">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                Aucune réservation enregistrée
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

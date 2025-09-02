@@ -1,0 +1,92 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Utilisateur index{% endblock %}
+
+{% block body %}
+    <style>
+        .table td, .table th {
+            padding: 12px !important;
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
+        .btn-sm-custom {
+            padding: 6px 12px;
+            font-size: 1rem;
+        }
+
+        .table th {
+            background-color: #343a40;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .td-description {
+            max-width: 300px;
+            word-break: break-word;
+        }
+    </style>
+
+    <div class="bg-white tm-block h-100 p-4" style="max-width: 1500px; margin: 0 auto;">
+        <div class="row mb-4">
+            <div class="col-8">
+                <h2 class="tm-block-title" style="font-size: 2rem;">LISTE DES UTILISATEURS</h2>
+            </div>
+            <div class="col-4 text-end">
+                <a href="{{ path('app_utilisateur_new') }}" class="btn btn-primary btn-sm-custom">
+                    <i class="fas fa-plus"></i> Créer un nouvel utilisateur
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Password_hash</th>
+                        <th>Role</th>
+                        <th>Created_at</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for utilisateur in utilisateurs %}
+                        <tr>
+                            <td>{{ utilisateur.username }}</td>
+                            <td>{{ utilisateur.email }}</td>
+                            <td>{{ utilisateur.passwordHash }}</td>
+                            <td>{{ utilisateur.role }}</td>
+                            <td>{{ utilisateur.createdAt ? utilisateur.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" class="btn btn-info btn-sm-custom" title="Voir">
+                                        👁️
+                                    </a>
+                                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-warning btn-sm-custom" title="Modifier">
+                                        ✏️
+                                    </a>
+                                    <a href="{{ path('app_utilisateur_delete', {'id': utilisateur.id}) }}" class="btn btn-danger btn-sm-custom" title="Supprimer">
+                                        🗑️
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4" style="font-size: 1.2rem;">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                Aucun utilisateur enregistré
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

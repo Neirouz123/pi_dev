@@ -1,0 +1,58 @@
+/* ---------------------------
+   Général
+--------------------------- */
+.container {
+    padding-top: 3rem;
+}
+
+/* ---------------------------
+   Carte principale
+--------------------------- */
+.card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+/* ---------------------------
+   En-tête
+--------------------------- */
+.card-header {
+    background: linear-gradient(90deg, #ffc107, #ffca2c);
+    color: #212529;
+    padding: 1.5rem 2rem;
+}
+
+.card-header h3 {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.card-header .btn {
+    border: 1px solid #fff;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.card-header .btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* ---------------------------
+   Corps du formulaire
+--------------------------- */
+.card-body {
+    background-color: #fff;
+    padding: 2rem;
+}
+
+/* ---------------------------
+   Pied de carte (footer)
+--------------------------- */
+.card-footer {
+    background-color: #f8f9fa;
+    padding: 1.2rem 2rem;
+    text-align: right;
+}
