@@ -693,78 +693,132 @@
                 </div>
 
                 <div class="row">
-                    {% for venue in venues %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="glass-card h-100 p-4">
-                                <div class="text-center mb-3">
-                                    <div class="venue-icon mb-3">
-                                        {% if venue.capacite > 150 %}
-                                            🏰
-                                        {% elseif venue.capacite > 100 %}
-                                            💎
-                                        {% elseif venue.capacite > 50 %}
-                                            🌸
-                                        {% else %}
-                                            🎭
-                                        {% endif %}
-                                    </div>
-                                    <h4 class="text-white mb-2">{{ venue.nom }}</h4>
-                                    <p class="text-white-50 mb-3">{{ venue.description|default('Perfect venue for your celebration') }}</p>
-                                </div>
-
-                                <div class="venue-details mb-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-white-50">📍 Address:</span>
-                                        <span class="text-white">{{ venue.adresse }}</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-white-50">👥 Capacity:</span>
-                                        <span class="text-white">{{ venue.capacite }} guests</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-white-50">💰 Price:</span>
-                                        <span class="text-warning fw-bold">{{ venue.prix }} DT</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-white-50">📅 Status:</span>
-                                        {% if venue.disponible %}
-                                            <span class="badge bg-success">Available</span>
-                                        {% else %}
-                                            <span class="badge bg-danger">Booked</span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                {% if venue.disponible %}
-                                    <div class="d-grid">
-                                        <button class="btn btn-reserve" onclick="showBookingForm({{ venue.id }}, '{{ venue.nom }}', {{ venue.prix }})">
-                                            <span style="font-size: 1.2rem; margin-right: 10px;">✨</span>
-                                            Book This Venue
-                                            <span style="font-size: 1.2rem; margin-left: 10px;">🎉</span>
-                                        </button>
-                                    </div>
-                                {% else %}
-                                    <div class="d-grid">
-                                        <button class="btn btn-secondary" disabled>
-                                            <span style="font-size: 1.2rem;">🔒</span>
-                                            Currently Booked
-                                        </button>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="col-12 text-center">
-                            <div class="glass-card p-5">
-                                <h3 class="text-white mb-3">
-                                    <span style="font-size: 2rem; color: #ffd700;">📋</span>
-                                    No Venues Available
-                                </h3>
-                                <p class="text-white-50 fs-5">All our venues are currently booked. Please check back later!</p>
-                            </div>
-                        </div>
-                    {% endfor %}
+    {% for venue in venues %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="glass-card h-100 p-4">
+                <div class="text-center mb-3">
+                    <div class="venue-icon mb-3">
+                        {% if venue.capacite > 150 %}
+                            🏰
+                        {% elseif venue.capacite > 100 %}
+                            💎
+                        {% elseif venue.capacite > 50 %}
+                            🌸
+                        {% else %}
+                            🎭
+                        {% endif %}
+                    </div>
+                    <h4 class="text-white mb-2">{{ venue.nom }}</h4>
+                    
+                    <!-- Description + bouton traduction -->
+                    <p class="text-white-50 mb-3" id="desc-{{ venue.id }}">
+                        {{ venue.description|default('Perfect venue for your celebration') }}
+                    </p>
+                    <button class="btn btn-sm btn-light mb-3"
+                            onclick="translateDescription({{ venue.id }})">
+                        🌐 Traduire
+                    </button>
                 </div>
+
+                <div class="venue-details mb-4">
+                 <div class="d-flex justify-content-between align-items-center mb-2">
+    <span class="text-white-50">📍 Address:</span>
+    <span class="text-white" id="address-{{ venue.id }}">{{ venue.adresse }}</span>
+
+    <!-- Bouton localisation -->
+    <button class="btn btn-sm btn-light ms-2"
+            onclick="showOnMap('{{ venue.adresse|e('js') }}')">
+        🌍
+    </button>
+</div>
+<script>
+function showOnMap(address) {
+    if (!address) {
+        alert("⚠️ Adresse introuvable !");
+        return;
+    }
+    // Encode l'adresse pour l'URL
+    const encodedAddress = encodeURIComponent(address);
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+    window.open(url, "_blank"); // ouvre dans un nouvel onglet
+}
+</script>
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-white-50">👥 Capacity:</span>
+                        <span class="text-white">{{ venue.capacite }} guests</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-white-50">💰 Price:</span>
+                        <span class="text-warning fw-bold">{{ venue.prix }} DT</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-white-50">📅 Status:</span>
+                        {% if venue.disponible %}
+                            <span class="badge bg-success">Available</span>
+                        {% else %}
+                            <span class="badge bg-danger">Booked</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if venue.disponible %}
+                    <div class="d-grid">
+                        <button class="btn btn-reserve" onclick="showBookingForm({{ venue.id }}, '{{ venue.nom }}', {{ venue.prix }})">
+                            <span style="font-size: 1.2rem; margin-right: 10px;">✨</span>
+                            Book This Venue
+                            <span style="font-size: 1.2rem; margin-left: 10px;">🎉</span>
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="d-grid">
+                        <button class="btn btn-secondary" disabled>
+                            <span style="font-size: 1.2rem;">🔒</span>
+                            Currently Booked
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="col-12 text-center">
+            <div class="glass-card p-5">
+                <h3 class="text-white mb-3">
+                    <span style="font-size: 2rem; color: #ffd700;">📋</span>
+                    No Venues Available
+                </h3>
+                <p class="text-white-50 fs-5">All our venues are currently booked. Please check back later!</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+async function translateDescription(id) {
+    const descEl = document.getElementById("desc-" + id);
+    const originalText = descEl.innerText;
+
+    try {
+        const response = await fetch("{{ path('api_translate') }}", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ text: originalText })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.translatedText) {
+            descEl.innerText = data.translatedText;
+        } else {
+            alert("❌ Erreur de traduction : " + (data.error || "Service indisponible"));
+        }
+    } catch (e) {
+        console.error("Erreur traduction", e);
+        alert("⚠️ Impossible de traduire le texte.");
+    }
+}
+</script>
+
             </div>
         </section>
 
